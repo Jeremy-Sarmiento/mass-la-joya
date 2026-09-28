@@ -1,0 +1,13 @@
+name: Diagnostico
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  prueba:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Saludo
+        run: echo "el runner funciona"
