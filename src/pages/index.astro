@@ -1,0 +1,974 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+
+
+	  <!-- ================= MAIN HEADER & NAVBAR ================= -->
+	  <header class="navbar-mass">
+	    <div class="container">
+	      <div class="row align-items-center g-2">
+	        <!-- Logo & Brand -->
+	        <div class="col-8 col-md-3">
+	          <a href="#inicio" class="mass-brand-container">
+	            <img src="/assets/img/mass_logo.webp" alt="Logo Mass" class="mass-brand-logo">
+	            <div class="mass-brand-text">
+	              <span class="mass-brand-title">mass</span>
+	              <span class="mass-brand-badge">La Joya</span>
+	            </div>
+	          </a>
+	        </div>
+
+	        <!-- Search Bar with Autocomplete -->
+	        <div class="col-12 col-md-5 order-3 order-md-2">
+	          <div class="search-wrapper">
+	            <input type="text" id="main-search-input" class="search-input" placeholder="Buscar producto en Mass...">
+	            <button class="search-btn" type="button" aria-label="Buscar">
+	              <i class="fa-solid fa-magnifying-glass"></i>
+	            </button>
+	            <button id="search-clear-btn" class="btn btn-sm text-muted position-absolute top-50 translate-middle-y p-0" style="display:none; right: 36px; font-size: 0.8rem;" onclick="clearSearch()">
+	              <i class="fa-solid fa-xmark"></i>
+	            </button>
+	            <div id="search-results-dropdown" class="search-dropdown"></div>
+	          </div>
+	        </div>
+
+	        <!-- Actions & Cart Button -->
+	        <div class="col-4 col-md-4 order-2 order-md-3 text-end d-flex align-items-center justify-content-end gap-2">
+	          <button class="btn-mass-pill btn-mass-blue d-none d-lg-inline-flex" onclick="openEncarteModal(1)">
+	            <i class="fa-solid fa-book-open"></i> Encarte Digital
+	          </button>
+
+	          <button type="button" class="btn-mass-pill btn-mass-blue theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Cambiar a modo oscuro">
+	            <i class="fa-solid fa-moon"></i>
+	          </button>
+
+	          <button class="btn-mass-pill btn-mass-blue cart-btn-wrapper" onclick="openCartDrawer()" aria-label="Ver Carrito">
+	            <i class="fa-solid fa-cart-shopping fs-6"></i>
+	            <span class="d-none d-sm-inline" id="cart-header-total">S/ 0.00</span>
+	            <span class="cart-counter cart-counter-badge" style="display:none;">0</span>
+	          </button>
+	        </div>
+	      </div>
+	    </div>
+
+	    <!-- Secondary Links Bar -->
+	    <nav class="nav-categories-bar mt-2">
+	      <div class="container">
+	        <ul class="nav-links-list">
+	          <li><a href="#inicio" class="nav-link-item active"><i class="fa-solid fa-house"></i> Inicio</a></li>
+	          <li><a href="#seccion-ofertas" class="nav-link-item"><i class="fa-solid fa-tag"></i> Precios Más Mass</a></li>
+	          <li><a href="#seccion-catalogo" class="nav-link-item"><i class="fa-solid fa-basket-shopping"></i> Catálogo Completo</a></li>
+	          <li><a href="javascript:void(0)" onclick="openEncarteModal(1)" class="nav-link-item"><i class="fa-solid fa-newspaper"></i> Encarte de la Quincena</a></li>
+	          <li><a href="#seccion-ubicame" class="nav-link-item"><i class="fa-solid fa-location-dot"></i> Ubícanos en La Joya</a></li>
+	          <li><a href="#seccion-fuerza-amarilla" class="nav-link-item"><i class="fa-solid fa-users"></i> Fuerza Amarilla</a></li>
+	          <li><a href="#seccion-ofrece-local" class="nav-link-item"><i class="fa-solid fa-store"></i> Ofrece tu Local</a></li>
+	          <li><a href="javascript:void(0)" onclick="openModal('myModalPoliticas')" class="nav-link-item"><i class="fa-solid fa-rotate-left"></i> Cambios y Devoluciones</a></li>
+	        </ul>
+	      </div>
+	    </nav>
+	  </header>
+
+	  <!-- ================= HERO CAROUSEL ================= -->
+	  <section id="inicio" class="hero-section">
+	    <div class="container">
+	      <div id="heroCarousel" class="carousel slide hero-slider-container" data-bs-ride="carousel" data-bs-interval="4500">
+	        <div class="carousel-indicators">
+	          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+	          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+	          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+	        </div>
+
+	        <div class="carousel-inner">
+	          <div class="carousel-item active">
+	            <a href="#seccion-catalogo">
+	              <img src="/assets/img/banner-hero-1.svg" class="hero-slide-img" alt="¡Los mejores precios en Mass de La Joya!">
+	            </a>
+	          </div>
+	          <div class="carousel-item">
+	            <a href="javascript:void(0)" onclick="openEncarteModal(1)">
+	              <img src="/assets/img/banner-hero-2.svg" class="hero-slide-img" alt="Encarte Digital Mass La Joya">
+	            </a>
+	          </div>
+	          <div class="carousel-item">
+	            <a href="javascript:void(0)" onclick="openCartDrawer()">
+	              <img src="/assets/img/banner-hero-3.svg" class="hero-slide-img" alt="Delivery Express en La Joya">
+	            </a>
+	          </div>
+	        </div>
+
+	        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+	          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	          <span class="visually-hidden">Anterior</span>
+	        </button>
+	        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+	          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	          <span class="visually-hidden">Siguiente</span>
+	        </button>
+	      </div>
+	    </div>
+	  </section>
+
+	  <!-- ================= BENEFITS STRIP ================= -->
+	  <section class="py-4" aria-label="Beneficios y servicios de Mass La Joya">
+	    <div class="container">
+	      <div class="benefits-strip">
+	        <div class="benefit-item">
+	          <div class="benefit-icon"><i class="fa-solid fa-truck-fast"></i></div>
+	          <div class="benefit-text">
+	            <span class="benefit-title">Delivery a domicilio</span>
+	            <span class="benefit-sub">Pedidos por WhatsApp</span>
+	          </div>
+	        </div>
+	        <div class="benefit-item">
+	          <div class="benefit-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+	          <div class="benefit-text">
+	            <span class="benefit-title">Paga como quieras</span>
+	            <span class="benefit-sub">Yape, Plin, efectivo y POS</span>
+	          </div>
+	        </div>
+	        <div class="benefit-item">
+	          <div class="benefit-icon"><i class="fa-solid fa-tags"></i></div>
+	          <div class="benefit-text">
+	            <span class="benefit-title">Precios imbatibles</span>
+	            <span class="benefit-sub">Ofertas todos los días</span>
+	          </div>
+	        </div>
+	        <div class="benefit-item">
+	          <div class="benefit-icon"><i class="fa-solid fa-clock"></i></div>
+	          <div class="benefit-text">
+	            <span class="benefit-title">Abierto todos los días</span>
+	            <span class="benefit-sub">7:00 a.m. – 10:00 p.m.</span>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </section>
+
+	  <!-- ================= CATEGORIES SECTION ================= -->
+	  <section class="py-4">
+	    <div class="container">
+	      <div class="section-title-wrap">
+	        <span class="section-badge">Explora por Departamentos</span>
+	        <h2 class="section-heading">¿QUÉ ESTÁS BUSCANDO HOY?</h2>
+	        <p class="section-subtitle">Selecciona una categoría para filtrar al instante todos los productos disponibles en tu tienda Mass de La Joya.</p>
+	      </div>
+
+	      <div class="row g-3" id="category-pills-container">
+	        <!-- Rendered dynamically by JavaScript -->
+	      </div>
+	    </div>
+	  </section>
+
+	  <!-- ================= FEATURED: PRECIOS MÁS MASS ================= -->
+	  <section id="seccion-ofertas" class="py-5 bg-white">
+	    <div class="container">
+	      <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
+	        <div>
+	          <span class="section-badge bg-danger text-white">¡Ahorro Máximo Diario!</span>
+	          <h2 class="section-heading text-primary">PRECIOS MÁS MASS</h2>
+	          <p class="text-muted mb-0">Las mejores ofertas seleccionadas especialmente para los hogares de La Joya.</p>
+	        </div>
+	        <div class="mt-3 mt-md-0">
+	          <a href="#seccion-catalogo" class="btn-mass-pill btn-mass-yellow">
+	            Ver todo el catálogo <i class="fa-solid fa-arrow-right"></i>
+	          </a>
+	        </div>
+	      </div>
+
+	      <div class="row g-3" id="featured-products-grid">
+	        <!-- Rendered dynamically by JavaScript -->
+	      </div>
+	    </div>
+	  </section>
+
+	  <!-- ================= BANNER CATALOGO PROMO ================= -->
+	  <section class="py-5">
+	    <div class="container">
+	      <div class="banner-catalogo-section">
+	        <div class="row align-items-center">
+	          <div class="col-12 col-lg-7 text-center text-lg-start mb-4 mb-lg-0">
+	            <span class="badge bg-primary text-warning px-3 py-2 rounded-pill fw-bold mb-2">¡EXCLUSIVO LA JOYA!</span>
+	            <h2>¡LOS MEJORES PRECIOS DEL BARRIO!</h2>
+	            <p>Caser@, a mí nadie me gana: tengo siempre los <strong>precios más bajos</strong> de Arequipa y, además, estoy <strong>cerquita de tu hogar</strong> en el corazón de La Joya.</p>
+	            <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+	              <button class="btn-mass-pill btn-mass-blue fs-6" onclick="openEncarteModal(1)">
+	                <i class="fa-solid fa-book-open"></i> Ver Encarte Digital
+	              </button>
+	              <a href="https://wa.me/51987654321?text=Hola%20Mass%20La%20Joya,%20quiero%20hacer%20un%20pedido" target="_blank" class="btn-mass-pill btn-mass-red fs-6">
+	                <i class="fa-brands fa-whatsapp"></i> Pedir por WhatsApp
+	              </a>
+	            </div>
+	          </div>
+	          <div class="col-12 col-lg-5 text-center">
+	            <img src="/assets/img/mano-catalogos.webp" alt="Catálogo Mass" class="img-fluid" style="max-height: 280px;">
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </section>
+
+	  <!-- ================= FULL PRODUCT CATALOG SECTION ================= -->
+	  <section id="seccion-catalogo" class="py-5 bg-light">
+	    <div class="container">
+	      <div class="section-title-wrap">
+	        <span class="section-badge">Catálogo en Vivo</span>
+	        <h2 class="section-heading">TODOS LOS PRODUCTOS MASS</h2>
+	        <p class="section-subtitle" id="products-count-label">Cargando productos de Mass de La Joya...</p>
+	      </div>
+
+	      <!-- Controls: Zone, Sort, Search Filters -->
+	      <div class="p-3 bg-white rounded-4 shadow-sm border mb-4">
+	        <div class="row g-3 align-items-center">
+	          <div class="col-12 col-md-5">
+	            <div class="d-flex align-items-center gap-2">
+	              <span class="text-primary fw-bold small text-nowrap"><i class="fa-solid fa-location-dot"></i> Entrega:</span>
+	              <select class="form-select form-select-sm delivery-zone-select rounded-pill border-primary">
+	                <!-- Populated dynamically -->
+	              </select>
+	            </div>
+	          </div>
+
+	          <div class="col-6 col-md-4">
+	            <div class="d-flex align-items-center gap-2">
+	              <span class="text-muted small text-nowrap"><i class="fa-solid fa-arrow-down-short-wide"></i> Ordenar:</span>
+	              <select id="sort-products-select" class="form-select form-select-sm rounded-pill">
+	                <option value="default">Recomendados</option>
+	                <option value="price-asc">Precio: Menor a Mayor</option>
+	                <option value="price-desc">Precio: Mayor a Menor</option>
+	                <option value="discount">Mayor Descuento %</option>
+	                <option value="name">Nombre A-Z</option>
+	              </select>
+	            </div>
+	          </div>
+
+	          <div class="col-6 col-md-3 text-end">
+	            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="resetFilters()">
+	              <i class="fa-solid fa-filter-circle-xmark"></i> Limpiar Filtros
+	            </button>
+	          </div>
+	        </div>
+	      </div>
+
+	      <!-- Product Grid -->
+	      <div class="row g-3" id="products-grid">
+	        <!-- Rendered dynamically by JavaScript -->
+	      </div>
+	    </div>
+	  </section>
+
+	  <!-- ================= DIGITAL ENCARTE PROMO BANNER ================= -->
+	  <section class="py-5 bg-primary text-white text-center position-relative overflow-hidden">
+	    <div class="container position-relative" style="z-index: 2;">
+	      <span class="badge bg-warning text-primary px-3 py-2 rounded-pill fw-bold mb-2">ENCARTE QUINCENAL</span>
+	      <h2 class="display-6 fw-bold mb-3">¿Prefieres hojear nuestro folleto de ofertas?</h2>
+	      <p class="lead text-light mb-4" style="max-width: 650px; margin: 0 auto;">
+	        Descubre las 3 páginas interactivas de nuestro encarte oficial para La Joya. Puedes hacer clic en los productos para agregarlos directamente a tu pedido.
+	      </p>
+	      <button class="btn-mass-pill btn-mass-yellow fs-5 px-4 py-3" onclick="openEncarteModal(1)">
+	        <i class="fa-solid fa-book-open-reader"></i> Abrir Encarte Interactivo
+	      </button>
+	    </div>
+	  </section>
+
+	  <!-- ================= STORE LOCATOR: LA JOYA ================= -->
+	  <section id="seccion-ubicame" class="py-5 bg-white">
+	    <div class="container">
+	      <div class="section-title-wrap">
+	        <span class="section-badge">Visítanos en persona</span>
+	        <h2 class="section-heading">UBÍCAME EN LA JOYA - AREQUIPA</h2>
+	        <p class="section-subtitle">Estamos ubicados en una zona céntrica y de fácil acceso para todos los vecinos joyeros.</p>
+	      </div>
+
+	      <div class="store-locator-card">
+	        <div class="row g-0">
+	          <div class="col-12 col-lg-5 store-info-box">
+	            <div class="store-badge-live mb-3">
+	              Abierto ahora mismo
+	            </div>
+	            <h3 class="text-primary fw-bold mb-2">Tienda Mass La Joya</h3>
+	            <p class="text-muted mb-4"><i class="fa-solid fa-location-dot text-danger"></i> Av. Paz Soldán, La Joya, Arequipa, Perú.</p>
+
+	            <div class="mb-3">
+	              <h6 class="fw-bold text-dark mb-1"><i class="fa-regular fa-clock text-primary"></i> Horario de Atención:</h6>
+	              <p class="text-secondary small mb-0">Lunes a Domingo (incluyendo feriados): <strong>7:00 AM - 10:00 PM</strong></p>
+	            </div>
+
+	            <div class="mb-3">
+	              <h6 class="fw-bold text-dark mb-1"><i class="fa-solid fa-phone text-success"></i> Central y WhatsApp:</h6>
+	              <p class="text-secondary small mb-0">+51 987 654 321</p>
+	            </div>
+
+	            <div class="mb-4">
+	              <h6 class="fw-bold text-dark mb-1"><i class="fa-solid fa-credit-card text-info"></i> Servicios Disponibles:</h6>
+	              <div class="d-flex flex-wrap gap-1 mt-1">
+	                <span class="badge bg-light text-dark border">Yape & Plin</span>
+	                <span class="badge bg-light text-dark border">POS Visa & Mastercard</span>
+	                <span class="badge bg-light text-dark border">Agente Corresponsal</span>
+	                <span class="badge bg-light text-dark border">Recargas Móviles</span>
+	                <span class="badge bg-light text-dark border">Estacionamiento</span>
+	              </div>
+	            </div>
+
+	            <div class="d-flex flex-wrap gap-2">
+	              <a href="https://maps.app.goo.gl/L1dAmB6dL8NKLfm97" target="_blank" class="btn-mass-pill btn-mass-blue">
+	                <i class="fa-solid fa-diamond-turn-right"></i> Abrir en Google Maps
+	              </a>
+	              <a href="https://wa.me/51987654321?text=Hola%20Mass%20La%20Joya,%20tengo%20una%20consulta" target="_blank" class="btn-mass-pill btn-mass-yellow">
+	                <i class="fa-brands fa-whatsapp"></i> Escribir a Tienda
+	              </a>
+	            </div>
+	          </div>
+
+	          <!-- Mapa Interactivo en Tiempo Real -->
+	          <div class="col-12 col-lg-7 p-3 bg-light">
+	            <div class="footer-map h-100">
+	              <div class="d-flex justify-content-between align-items-center mb-2">
+	                <h3 class="footer-map-title h5 text-primary fw-bold m-0"><i class="fa-solid fa-map-location-dot me-1"></i> Ubicación Tienda Mass La Joya</h3>
+	                <a href="https://maps.app.goo.gl/L1dAmB6dL8NKLfm97" target="_blank" class="badge bg-primary text-warning text-decoration-none">
+	                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver en Maps
+	                </a>
+	              </div>
+	              <iframe
+	                class="mapa-embed rounded-4 shadow-sm w-100"
+	                src="https://www.openstreetmap.org/export/embed.html?bbox=-71.8285%2C-16.4295%2C-71.8140%2C-16.4215&layer=mapnik&marker=-16.4256223%2C-71.8212998"
+	                height="360"
+	                style="border:0;"
+	                allowfullscreen=""
+	                loading="lazy"
+	                title="Mapa de la tienda Mass de La Joya"></iframe>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </section>
+
+	  <!-- ================= FUERZA AMARILLA (TRABAJA CON NOSOTROS) ================= -->
+	  <section id="seccion-fuerza-amarilla" class="py-5">
+	    <div class="container">
+	      <div class="fuerza-amarilla-section">
+	        <div class="row align-items-center">
+	          <div class="col-12 col-lg-7 mb-4 mb-lg-0">
+	            <img src="/assets/img/fuerza-amarilla.png" alt="Fuerza Amarilla Mass" class="img-fluid mb-3" style="max-height: 90px;">
+	            <h2 class="fw-bold text-primary display-6 mb-3">¡ÚNETE A LA FUERZA AMARILLA EN LA JOYA!</h2>
+	            <p class="lead fw-semibold text-dark mb-2">¡Tú pones el talento y juntos desarrollamos tu potencial!</p>
+	            <p class="text-dark mb-4">
+	              Si tienes 18 años a más, vives en La Joya o distritos aledaños, te apasiona la atención al cliente y buscas estabilidad con beneficios de ley, ingreso a planilla desde el primer día y capacitaciones continuas... ¡te estamos buscando!
+	            </p>
+	            <button class="btn-mass-pill btn-mass-blue fs-6" onclick="openModal('trabajaModal')">
+	              <i class="fa-solid fa-user-plus"></i> Postular Ahora en La Joya
+	            </button>
+	          </div>
+	          <div class="col-12 col-lg-5 text-center">
+	            <img src="/assets/img/trabajo.webp" alt="Trabaja en Tiendas Mass" class="img-fluid rounded-4 shadow-sm" style="max-height: 320px;">
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </section>
+
+	  <!-- ================= OFRECE TU LOCAL ================= -->
+	  <section id="seccion-ofrece-local" class="py-5 bg-white">
+	    <div class="container">
+	      <div class="p-4 p-md-5 bg-light rounded-4 border shadow-sm">
+	        <div class="row align-items-center">
+	          <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+	            <span class="badge bg-primary text-warning px-3 py-2 rounded-pill fw-bold mb-2">EXPANSIÓN MASS</span>
+	            <h2 class="text-primary fw-bold mb-3">¿TIENES UN LOCAL EN ALQUILER EN LA JOYA?</h2>
+	            <p class="text-secondary mb-3">
+	              En Tiendas Mass buscamos locales comerciales para seguir abriendo nuevas sedes más cerca de las familias joyeras.
+	            </p>
+	            <ul class="text-secondary small ps-3 mb-4">
+	              <li class="mb-1">Área mínima requerida: <strong>120 m² a 300 m²</strong> en primer piso.</li>
+	              <li class="mb-1">Frente comercial mínimo de <strong>6 metros lineales</strong>.</li>
+	              <li class="mb-1">Ubicación en avenidas principales, zonas comerciales o de alto tránsito peatonal.</li>
+	              <li>Contratos a largo plazo con garantía y puntualidad de pago de Supermercados Peruanos.</li>
+	            </ul>
+	            <button class="btn-mass-pill btn-mass-yellow" onclick="openModal('ofreceLocalModal')">
+	              <i class="fa-solid fa-building"></i> Registrar mi Local
+	            </button>
+	          </div>
+
+	          <div class="col-12 col-lg-6">
+	            <div class="bg-white p-4 rounded-4 shadow-sm border">
+	              <h5 class="text-primary fw-bold mb-3"><i class="fa-solid fa-paper-plane"></i> Envíanos los datos de tu inmueble</h5>
+	              <form id="ofrece-local-form" onsubmit="submitLocalOffer(event)">
+	                <div class="mb-2">
+	                  <label class="form-label small fw-bold">Nombre del Propietario / Contacto:</label>
+	                  <input type="text" class="form-control form-control-sm" required placeholder="Ej: Juan Pérez">
+	                </div>
+	                <div class="row g-2 mb-2">
+	                  <div class="col-6">
+	                    <label class="form-label small fw-bold">Teléfono / Celular:</label>
+	                    <input type="tel" class="form-control form-control-sm" required placeholder="987654321">
+	                  </div>
+	                  <div class="col-6">
+	                    <label class="form-label small fw-bold">Área aprox (m²):</label>
+	                    <input type="number" class="form-control form-control-sm" required placeholder="Ej: 180">
+	                  </div>
+	                </div>
+	                <div class="mb-3">
+	                  <label class="form-label small fw-bold">Dirección en La Joya:</label>
+	                  <input type="text" class="form-control form-control-sm" required placeholder="Ej: Av. Panamericana Sur Km 980">
+	                </div>
+	                <button type="submit" class="btn-mass-pill btn-mass-blue w-100">
+	                  Enviar Propuesta de Local
+	                </button>
+	              </form>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </section>
+
+	  <!-- ================= TESTIMONIALS OF CASER@S ================= -->
+	  <section class="py-5 bg-light">
+	    <div class="container">
+	      <div class="section-title-wrap">
+	        <span class="section-badge">La opinión de nuestros vecinos</span>
+	        <h2 class="section-heading">LO QUE DICEN NUESTROS CASER@S</h2>
+	        <p class="section-subtitle">Familias de La Joya que disfrutan de precios bajos todos los días.</p>
+	      </div>
+
+	      <div class="row" id="testimonials-container">
+	        <!-- Rendered dynamically by JavaScript -->
+	      </div>
+	    </div>
+	  </section>
+
+	  <!-- ================= FOOTER ================= -->
+	  <footer>
+	    <div class="container">
+	      <!-- Métodos de Pago -->
+	      <div class="text-center mb-5">
+	        <h4 class="footer-heading mb-3">MÉTODOS DE PAGO ACEPTADOS</h4>
+	        <img src="/assets/img/metodos-pago.png" alt="Métodos de pago en Tiendas Mass" class="img-fluid" style="max-height: 48px;">
+	      </div>
+
+	      <div class="row g-4 mb-4">
+	        <!-- About Mass La Joya -->
+	        <div class="col-12 col-md-4">
+	          <div class="d-flex align-items-center gap-2 mb-3">
+	            <img src="/assets/img/mass_logo.webp" alt="Mass Logo" style="height: 42px;">
+	            <span class="fs-4 fw-bold text-primary">mass <span class="badge bg-primary text-warning small">La Joya</span></span>
+	          </div>
+	          <p class="text-secondary small">
+	            Soy la tienda Mass, la más Mass de todos los barrios con productos de calidad y a los mejores precios para que tú y tu familia siempre puedan ahorrar en sus compras diarias.
+	          </p>
+	          <div class="d-flex gap-2">
+	            <a href="https://www.facebook.com/TiendasMassPeru" target="_blank" class="social-icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+	            <a href="https://www.instagram.com/tiendasmassperu/" target="_blank" class="social-icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+	            <a href="https://www.tiktok.com/@tiendasmassperu" target="_blank" class="social-icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+	            <a href="https://www.youtube.com/@TiendasMass/" target="_blank" class="social-icon-btn" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+	          </div>
+	        </div>
+
+	        <!-- Useful Links -->
+	        <div class="col-6 col-md-4">
+	          <h5 class="footer-heading">ENLACES RÁPIDOS</h5>
+	          <ul class="footer-links">
+	            <li><a href="#inicio">Inicio</a></li>
+	            <li><a href="#seccion-catalogo">Precios Mass Catálogo</a></li>
+	            <li><a href="javascript:void(0)" onclick="openEncarteModal(1)">Encarte Quincenal</a></li>
+	            <li><a href="#seccion-ubicame">Ubícanos en La Joya</a></li>
+	            <li><a href="#seccion-fuerza-amarilla">Trabaja con Nosotros</a></li>
+	            <li><a href="#seccion-ofrece-local">Alquila tu Local</a></li>
+	          </ul>
+	        </div>
+
+	        <!-- Customer Service & Legals -->
+	        <div class="col-6 col-md-4">
+	          <h5 class="footer-heading">SERVICIO AL CLIENTE</h5>
+	          <p class="text-secondary small mb-1"><strong>Horario de atención:</strong><br>Lunes a Domingo de 7:00 AM a 10:00 PM</p>
+	          <p class="text-secondary small mb-2"><strong>WhatsApp Tienda:</strong> +51 987 654 321</p>
+	          <ul class="footer-links">
+	            <li><a href="javascript:void(0)" onclick="openModal('myModalPoliticas')">Políticas de Cambios y Devoluciones</a></li>
+	            <li><a href="javascript:void(0)" onclick="openModal('libroReclamacionesModal')">Libro de Reclamaciones</a></li>
+	            <li><a href="javascript:void(0)" onclick="alert('Tiendas Mass garantiza la privacidad y protección de los datos de sus clientes conforme a la Ley N° 29733.')">Políticas de Privacidad</a></li>
+	          </ul>
+	          <div class="mt-3">
+	            <a href="javascript:void(0)" onclick="openModal('libroReclamacionesModal')">
+	              <img src="/assets/img/libroReclamaciones.webp" alt="Libro de Reclamaciones Virtual" style="max-width: 160px;">
+	            </a>
+	          </div>
+	        </div>
+	      </div>
+
+	      <div class="border-top pt-3 text-center text-muted small">
+	        <p class="mb-0">© 2026 Tiendas Mass - Sede Mass de La Joya | Compañía Hard Discount S.A.C. | Todos los derechos reservados.</p>
+	      </div>
+	    </div>
+	  </footer>
+
+	  <!-- ================= BACK TO TOP BUTTON ================= -->
+	  <button id="scrollTopBtn" class="scroll-top-btn" type="button" aria-label="Volver arriba">
+	    <i class="fa-solid fa-chevron-up"></i>
+	  </button>
+
+	  <!-- ================= FLOATING WHATSAPP BUTTON ================= -->
+	  <a href="https://wa.me/51987654321?text=Hola%20Mass%20de%20La%20Joya,%20quiero%20hacer%20un%20pedido%20o%20consultar%20ofertas" target="_blank" class="floating-whatsapp" aria-label="Escribir por WhatsApp">
+	    <i class="fa-brands fa-whatsapp fs-4"></i>
+	    <span class="d-none d-sm-inline">WhatsApp La Joya</span>
+	  </a>
+
+	  <!-- ================= MOBILE BOTTOM NAVIGATION ================= -->
+	  <nav class="mobile-bottom-nav">
+	    <a href="#inicio" class="mobile-nav-item active">
+	      <i class="fa-solid fa-house"></i>
+	      <span>Inicio</span>
+	    </a>
+	    <a href="#seccion-catalogo" class="mobile-nav-item">
+	      <i class="fa-solid fa-basket-shopping"></i>
+	      <span>Catálogo</span>
+	    </a>
+	    <a href="javascript:void(0)" onclick="openEncarteModal(1)" class="mobile-nav-item">
+	      <i class="fa-solid fa-book-open"></i>
+	      <span>Encarte</span>
+	    </a>
+	    <a href="javascript:void(0)" onclick="openCartDrawer()" class="mobile-nav-item">
+	      <i class="fa-solid fa-cart-shopping"></i>
+	      <span>Carrito</span>
+	      <span class="cart-counter cart-counter-badge" style="top:0; right:15px; display:none;">0</span>
+	    </a>
+	    <a href="#seccion-ubicame" class="mobile-nav-item">
+	      <i class="fa-solid fa-location-dot"></i>
+	      <span>Ubícanos</span>
+	    </a>
+	  </nav>
+
+	  <!-- ================= CART DRAWER OVERLAY & PANEL ================= -->
+	  <div id="cart-drawer-overlay" class="cart-drawer-overlay" onclick="closeCartDrawer()"></div>
+	  <aside id="cart-drawer" class="cart-drawer" aria-label="Carrito de compras Mass">
+	    <!-- Drawer Header -->
+	    <div class="cart-header">
+	      <div class="d-flex align-items-center gap-2">
+	        <i class="fa-solid fa-cart-shopping fs-5 text-primary"></i>
+	        <h4 class="m-0">Mi Carrito Mass</h4>
+	        <span class="cart-drawer-badge" id="cart-drawer-count-badge">0 items</span>
+	      </div>
+	      <button class="cart-close-btn" onclick="closeCartDrawer()" aria-label="Cerrar carrito">
+	        <i class="fa-solid fa-xmark"></i>
+	      </button>
+	    </div>
+
+	    <!-- Empty State -->
+	    <div id="cart-empty-state" class="cart-empty-state" style="display:none;">
+	      <div class="text-center">
+	        <div class="mb-3">
+	          <i class="fa-solid fa-cart-arrow-down text-warning fa-4x"></i>
+	        </div>
+	        <h5 class="fw-bold text-primary mb-2">Tu carrito está vacío</h5>
+	        <p class="text-muted small mb-4">Aprovecha los precios más bajos y llena tu carrito con productos frescos y de despensa para tu hogar.</p>
+	        <button class="btn-mass-pill btn-mass-yellow px-4 py-2" onclick="closeCartDrawer()">
+	          <i class="fa-solid fa-bag-shopping me-1"></i> Explorar Productos
+	        </button>
+	      </div>
+	    </div>
+
+	    <!-- Items List Body & Checkout Wrapper -->
+	    <div id="cart-content-state" class="cart-content-wrapper">
+	      <!-- Scrollable Middle Section -->
+	      <div class="cart-scroll-area">
+	        <!-- Delivery info badge -->
+	        <div class="cart-delivery-banner">
+	          <i class="fa-solid fa-truck-fast text-primary"></i>
+	          <span>Envíos rápidos a toda <strong>La Joya y alrededores</strong></span>
+	        </div>
+
+	        <!-- Rendered dynamically -->
+	        <div id="cart-items-container" class="cart-items-list">
+	          <!-- Items will be injected here -->
+	        </div>
+
+	        <!-- Coupon Code Form -->
+	        <div class="cart-coupon-box">
+	          <label class="form-label small fw-bold text-primary mb-1">
+	            <i class="fa-solid fa-ticket me-1"></i> Cupón de Descuento
+	          </label>
+	          <div class="input-group input-group-sm">
+	            <input type="text" id="coupon-input" class="form-control" placeholder="Ej: MASSJOYERO o LAJOYA10">
+	            <button class="btn btn-primary fw-bold" type="button" onclick="applyCoupon()">Aplicar</button>
+	          </div>
+	        </div>
+
+	        <!-- Delivery & Payment Info Form -->
+	        <div class="cart-checkout-card">
+	          <div class="cart-checkout-card-header">
+	            <i class="fa-solid fa-location-dot text-danger me-2"></i>
+	            <span>Datos para la Entrega y Pago</span>
+	          </div>
+	          <div class="cart-checkout-card-body">
+	            <div class="row g-2">
+	              <div class="col-12">
+	                <label class="form-label small fw-bold mb-1">Nombre Completo: <span class="text-danger">*</span></label>
+	                <input type="text" id="checkout-name" class="form-control form-control-sm" placeholder="Ej: Carmen Rojas">
+	              </div>
+	              <div class="col-6">
+	                <label class="form-label small fw-bold mb-1">Teléfono / Celular:</label>
+	                <input type="tel" id="checkout-phone" class="form-control form-control-sm" placeholder="Ej: 987654321">
+	              </div>
+	              <div class="col-6">
+	                <label class="form-label small fw-bold mb-1">Zona de entrega:</label>
+	                <select class="form-select form-select-sm delivery-zone-select">
+	                  <!-- Populated dynamically -->
+	                </select>
+	              </div>
+	              <div class="col-12">
+	                <label class="form-label small fw-bold mb-1">Dirección / Referencia:</label>
+	                <input type="text" id="checkout-address" class="form-control form-control-sm" placeholder="Ej: Av. Paz Soldán, La Joya">
+	              </div>
+	              <div class="col-12">
+	                <label class="form-label small fw-bold mb-1">Método de Pago:</label>
+	                <div class="cart-pay-methods">
+	                  <label class="cart-pay-opt">
+	                    <input type="radio" name="payMethod" value="Yape / Plin" checked>
+	                    <span><i class="fa-solid fa-mobile-screen-button text-purple"></i> Yape/Plin</span>
+	                  </label>
+	                  <label class="cart-pay-opt">
+	                    <input type="radio" name="payMethod" value="Efectivo Contra Entrega">
+	                    <span><i class="fa-solid fa-money-bill-wave text-success"></i> Efectivo</span>
+	                  </label>
+	                  <label class="cart-pay-opt">
+	                    <input type="radio" name="payMethod" value="Tarjeta POS">
+	                    <span><i class="fa-solid fa-credit-card text-primary"></i> POS</span>
+	                  </label>
+	                </div>
+	              </div>
+	              <div class="col-12">
+	                <label class="form-label small fw-bold mb-1">Nota adicional:</label>
+	                <input type="text" id="checkout-notes" class="form-control form-control-sm" placeholder="Ej: Casa frente a la plaza / Timbre blanco">
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+
+	        <!-- Totals Breakdown Summary -->
+	        <div class="cart-summary-box">
+	          <div class="cart-summary-line">
+	            <span class="text-muted">Subtotal productos:</span>
+	            <span id="cart-subtotal-val" class="fw-bold">S/ 0.00</span>
+	          </div>
+	          <div class="cart-summary-line">
+	            <span class="text-muted">Costo de Delivery:</span>
+	            <span id="cart-delivery-val" class="fw-bold text-primary">S/ 3.00</span>
+	          </div>
+	          <div class="cart-summary-line text-danger" id="cart-discount-line" style="display:none;">
+	            <span>Descuento aplicado:</span>
+	            <span id="cart-discount-val" class="fw-bold">- S/ 0.00</span>
+	          </div>
+	        </div>
+	      </div>
+
+	      <!-- Sticky Bottom Action Bar -->
+	      <div class="cart-footer-sticky">
+	        <div class="cart-total-bar">
+	          <div>
+	            <div class="text-muted small lh-1">Total a pagar</div>
+	            <div class="cart-total-price" id="cart-total-val">S/ 0.00</div>
+	          </div>
+	          <button class="btn-whatsapp-checkout" onclick="checkoutViaWhatsApp()" aria-label="Completar pedido por WhatsApp">
+	            <i class="fa-brands fa-whatsapp fs-4"></i>
+	            <span>Pedir por WhatsApp</span>
+	          </button>
+	        </div>
+	        <div class="d-flex justify-content-between align-items-center pt-2 px-1">
+	          <button type="button" class="btn btn-link btn-sm text-danger text-decoration-none p-0" onclick="clearCart()">
+	            <i class="fa-solid fa-trash-can me-1"></i> Vaciar Carrito
+	          </button>
+	          <button type="button" class="btn btn-link btn-sm text-secondary text-decoration-none p-0" onclick="closeCartDrawer()">
+	            Seguir Comprando <i class="fa-solid fa-arrow-right ms-1"></i>
+	          </button>
+	        </div>
+	      </div>
+	    </div>
+	  </aside>
+
+	  <!-- ================= MODAL: QUICK VIEW PRODUCT ================= -->
+	  <div class="modal fade" id="productQuickViewModal" tabindex="-1" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered modal-lg">
+	      <div class="modal-content rounded-4 border-0 shadow-lg">
+	        <div class="modal-header border-0 pb-0">
+	          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	        </div>
+	        <div class="modal-body p-4" id="quick-view-body">
+	          <!-- Rendered dynamically -->
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
+	  <!-- ================= MODAL: ENCARTE DIGITAL VIEWER ================= -->
+	  <div class="modal fade" id="encarteViewerModal" tabindex="-1" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered modal-xl">
+	      <div class="modal-content rounded-4 border-0 shadow-lg bg-dark text-white">
+	        <div class="modal-header border-secondary">
+	          <h5 class="modal-title fw-bold text-warning"><i class="fa-solid fa-book-open"></i> Encarte Oficial Mass de La Joya</h5>
+	          <span class="badge bg-primary ms-3" id="encarte-page-counter">Página 1 de 3</span>
+	          <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+	        </div>
+	        <div class="modal-body encarte-modal-body p-3">
+	          <div class="encarte-viewer-container">
+	            <button id="encarte-prev-btn" class="encarte-nav-btn encarte-nav-prev" onclick="changeEncartePage(-1)">
+	              <i class="fa-solid fa-chevron-left"></i>
+	            </button>
+	            <img id="encarte-page-image" src="/assets/img/encarte-page-1.svg" class="encarte-page-img" alt="Encarte de ofertas">
+	            <button id="encarte-next-btn" class="encarte-nav-btn encarte-nav-next" onclick="changeEncartePage(1)">
+	              <i class="fa-solid fa-chevron-right"></i>
+	            </button>
+	          </div>
+	        </div>
+	        <div class="modal-footer border-secondary justify-content-between">
+	          <div class="small text-muted">
+	            <i class="fa-solid fa-circle-info text-warning"></i> Precios válidos para Tienda Mass de La Joya y pedidos WhatsApp.
+	          </div>
+	          <div>
+	            <button class="btn-mass-pill btn-mass-yellow btn-sm" onclick="openCartDrawer(); bootstrap.Modal.getInstance(document.getElementById('encarteViewerModal')).hide();">
+	              <i class="fa-solid fa-cart-shopping"></i> Ver mi Carrito
+	            </button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
+	  <!-- ================= MODAL: ORDER TICKET CONFIRMATION ================= -->
+	  <div class="modal fade" id="orderConfirmationModal" tabindex="-1" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered">
+	      <div class="modal-content rounded-4 border-0 shadow-lg">
+	        <div class="modal-header bg-warning border-0">
+	          <h5 class="modal-title fw-bold text-primary"><i class="fa-solid fa-circle-check"></i> ¡Pedido Generado con Éxito!</h5>
+	          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	        </div>
+	        <div class="modal-body p-4">
+	          <p class="text-secondary small mb-3">
+	            Hemos preparado el ticket de tu pedido. Si no se abrió WhatsApp automáticamente, haz clic en el botón verde inferior.
+	          </p>
+	          <div id="ticket-content-body">
+	            <!-- Ticket generated dynamically -->
+	          </div>
+	        </div>
+	        <div class="modal-footer border-0 pt-0">
+	          <button type="button" class="btn btn-outline-secondary rounded-pill" onclick="window.print()">
+	            <i class="fa-solid fa-print"></i> Imprimir Ticket
+	          </button>
+	          <button type="button" class="btn-mass-pill btn-mass-blue" data-bs-dismiss="modal">
+	            Listo, Continuar
+	          </button>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
+	  <!-- ================= MODAL: POLÍTICAS DE CAMBIOS Y DEVOLUCIONES ================= -->
+	  <div class="modal fade" id="myModalPoliticas" tabindex="-1" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered">
+	      <div class="modal-content rounded-4 border-0 shadow-lg">
+	        <div class="modal-header bg-primary text-white border-0">
+	          <h5 class="modal-title fw-bold text-warning"><i class="fa-solid fa-rotate-left"></i> Políticas de Cambios y Devoluciones</h5>
+	          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+	        </div>
+	        <div class="modal-body p-4">
+	          <h6 class="fw-bold text-primary mb-3">Si necesitas hacer un cambio y/o devolución de algún producto, te la hacemos facilito nomás:</h6>
+	          <ol class="text-secondary ps-3 mb-3">
+	            <li class="mb-2">Acércate a nuestra tienda <strong>Mass de La Joya</strong> (Av. Paz Soldán, La Joya).</li>
+	            <li class="mb-2">Presenta el ticket de compra física o comprobante digital.</li>
+	            <li class="mb-2">El producto debe encontrarse en buenas condiciones y con su empaque original cerrado.</li>
+	          </ol>
+	          <div class="alert alert-warning small mb-0">
+	            <strong>* Plazos vigentes:</strong><br>
+	            • Productos perecibles: Dentro de las 24 horas posteriores a la compra.<br>
+	            • Productos no perecibles: Hasta 7 días posteriores a la compra.
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
+	  <!-- ================= MODAL: LIBRO DE RECLAMACIONES ================= -->
+	  <div class="modal fade" id="libroReclamacionesModal" tabindex="-1" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered modal-lg">
+	      <div class="modal-content rounded-4 border-0 shadow-lg">
+	        <div class="modal-header bg-primary text-white border-0">
+	          <h5 class="modal-title fw-bold text-warning"><i class="fa-solid fa-book"></i> Libro de Reclamaciones Virtual - Mass La Joya</h5>
+	          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+	        </div>
+	        <div class="modal-body p-4">
+	          <p class="text-secondary small">Conforme a lo establecido en el Código de Protección y Defensa del Consumidor (Ley N° 29571), la tienda pone a su disposición este Libro de Reclamaciones Virtual.</p>
+	          <form id="reclamaciones-form" onsubmit="submitReclamation(event)">
+	            <div class="row g-2 mb-2">
+	              <div class="col-md-6">
+	                <label class="form-label small fw-bold">Nombre y Apellidos:</label>
+	                <input type="text" class="form-control form-control-sm" required>
+	              </div>
+	              <div class="col-md-6">
+	                <label class="form-label small fw-bold">DNI / CE:</label>
+	                <input type="text" class="form-control form-control-sm" required>
+	              </div>
+	            </div>
+	            <div class="row g-2 mb-2">
+	              <div class="col-md-6">
+	                <label class="form-label small fw-bold">Teléfono / Celular:</label>
+	                <input type="tel" class="form-control form-control-sm" required>
+	              </div>
+	              <div class="col-md-6">
+	                <label class="form-label small fw-bold">Correo Electrónico:</label>
+	                <input type="email" class="form-control form-control-sm" required>
+	              </div>
+	            </div>
+	            <div class="mb-2">
+	              <label class="form-label small fw-bold">Dirección en La Joya:</label>
+	              <input type="text" class="form-control form-control-sm" required>
+	            </div>
+	            <div class="mb-2">
+	              <label class="form-label small fw-bold">Tipo de Reclamo:</label>
+	              <select class="form-select form-select-sm" required>
+	                <option value="queja">Queja (Disconformidad respecto a la atención)</option>
+	                <option value="reclamo">Reclamo (Disconformidad relacionada a los productos o servicios)</option>
+	              </select>
+	            </div>
+	            <div class="mb-3">
+	              <label class="form-label small fw-bold">Detalle de la Queja o Reclamo:</label>
+	              <textarea class="form-control form-control-sm" rows="3" required placeholder="Describe lo ocurrido..."></textarea>
+	            </div>
+	            <button type="submit" class="btn-mass-pill btn-mass-blue w-100">
+	              Registrar Hoja de Reclamación
+	            </button>
+	          </form>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
+	  <!-- ================= MODAL: TRABAJA CON NOSOTROS ================= -->
+	  <div class="modal fade" id="trabajaModal" tabindex="-1" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered">
+	      <div class="modal-content rounded-4 border-0 shadow-lg">
+	        <div class="modal-header bg-warning border-0">
+	          <h5 class="modal-title fw-bold text-primary"><i class="fa-solid fa-users"></i> Postulación Fuerza Amarilla - La Joya</h5>
+	          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	        </div>
+	        <div class="modal-body p-4">
+	          <p class="text-secondary small">Completa el formulario para participar en las convocatorias de Mass de La Joya:</p>
+	          <form id="trabaja-form" onsubmit="submitJobApplication(event)">
+	            <div class="mb-2">
+	              <label class="form-label small fw-bold">Nombre Completo:</label>
+	              <input type="text" class="form-control form-control-sm" required>
+	            </div>
+	            <div class="row g-2 mb-2">
+	              <div class="col-6">
+	                <label class="form-label small fw-bold">DNI:</label>
+	                <input type="text" class="form-control form-control-sm" required>
+	              </div>
+	              <div class="col-6">
+	                <label class="form-label small fw-bold">Edad:</label>
+	                <input type="number" min="18" max="70" class="form-control form-control-sm" required placeholder="18+">
+	              </div>
+	            </div>
+	            <div class="mb-2">
+	              <label class="form-label small fw-bold">Teléfono Celular:</label>
+	              <input type="tel" class="form-control form-control-sm" required>
+	            </div>
+	            <div class="mb-2">
+	              <label class="form-label small fw-bold">Zona de residencia en La Joya:</label>
+	              <input type="text" class="form-control form-control-sm" required placeholder="Ej: La Joya Centro / El Triunfo">
+	            </div>
+	            <div class="mb-3">
+	              <label class="form-label small fw-bold">Puesto de interés:</label>
+	              <select class="form-select form-select-sm">
+	                <option>Atención al Cliente y Caja</option>
+	                <option>Reponedor / Almacén</option>
+	                <option>Líder de Tienda / Supervisor</option>
+	                <option>Personal de Limpieza y Seguridad</option>
+	              </select>
+	            </div>
+	            <button type="submit" class="btn-mass-pill btn-mass-blue w-100">
+	              Enviar Postulación
+	            </button>
+	          </form>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
+	  <!-- Helper for opening general modals -->
+	  <script is:inline>
+	    function openModal(modalId) {
+	      const el = document.getElementById(modalId);
+	      if (el && window.bootstrap) {
+	        const modal = new bootstrap.Modal(el);
+	        modal.show();
+	      }
+	    }
+
+	    function setThemeIcon(dark) {
+	      const btn = document.getElementById('themeToggleBtn');
+	      if (!btn) return;
+	      const icon = btn.querySelector('i');
+	      icon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+	      btn.setAttribute('aria-label', dark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+	      btn.title = dark ? 'Modo claro' : 'Modo oscuro';
+	    }
+
+	    function toggleTheme() {
+	      const root = document.documentElement;
+	      const dark = root.getAttribute('data-theme') !== 'dark';
+	      root.setAttribute('data-theme', dark ? 'dark' : 'light');
+	      try {
+	        localStorage.setItem('mass-theme', dark ? 'dark' : 'light');
+	      } catch (e) {}
+	      setThemeIcon(dark);
+	    }
+
+	    setThemeIcon(document.documentElement.getAttribute('data-theme') === 'dark');
+	  </script>
+
+	  <!-- Bootstrap 5.3 JS Bundle -->
+	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+	  <!-- Leaflet JS -->
+	  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+	  <!-- Products & Main Application Scripts -->
+	  <script src="/js/products.js" is:inline></script>
+	  <script src="/js/app.js" is:inline></script>
+
+	  <!-- UI/UX: Scrollspy + Back to top -->
+	  <script is:inline>
+	    (function () {
+	      const sectionIds = ['inicio', 'seccion-ofertas', 'seccion-catalogo', 'seccion-ubicame', 'seccion-fuerza-amarilla', 'seccion-ofrece-local'];
+	      const navLinks = document.querySelectorAll('.nav-link-item[href^="#"]');
+	      const mobileNavItems = document.querySelectorAll('.mobile-nav-item[href^="#"]');
+
+	      function setActive(id) {
+	        navLinks.forEach((a) => a.classList.toggle('active', (a.getAttribute('href') || '').slice(1) === id));
+	        mobileNavItems.forEach((a) => a.classList.toggle('active', (a.getAttribute('href') || '').slice(1) === id));
+	      }
+
+	      if ('IntersectionObserver' in window) {
+	        const observer = new IntersectionObserver(
+	          (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); }),
+	          { rootMargin: '-40% 0px -55% 0px' }
+	        );
+	        sectionIds.forEach((id) => {
+	          const el = document.getElementById(id);
+	          if (el) observer.observe(el);
+	        });
+	      }
+
+	      const topBtn = document.getElementById('scrollTopBtn');
+	      if (topBtn) {
+	        const toggleTopBtn = () => {
+	          const y = window.scrollY || document.documentElement.scrollTop;
+	          topBtn.classList.toggle('show', y > 500);
+	        };
+	        window.addEventListener('scroll', toggleTopBtn, { passive: true });
+	        toggleTopBtn();
+	        topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+	      }
+	    })();
+	  </script>
+
+</Layout>

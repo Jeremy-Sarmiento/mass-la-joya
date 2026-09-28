@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="epg1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD100;stop-opacity:1" />
+      <stop offset="15%" style="stop-color:#FFD100;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFF8D6;stop-opacity:1" />
+    </linearGradient>
+    <filter id="esdw" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <rect width="800" height="1100" fill="url(#epg1)"/>
+
+  <!-- Header Header -->
+  <rect x="0" y="0" width="800" height="150" fill="#082EB7"/>
+  <rect x="40" y="30" width="220" height="90" rx="16" fill="#FFD100"/>
+  <text x="150" y="85" font-family="system-ui, sans-serif" font-weight="900" font-size="52" fill="#082EB7" text-anchor="middle">mass</text>
+  <text x="150" y="110" font-family="system-ui, sans-serif" font-weight="800" font-size="12" fill="#E30613" text-anchor="middle">DE LA JOYA - AREQUIPA</text>
+
+  <g transform="translate(300, 45)">
+    <text x="0" y="35" font-family="system-ui, sans-serif" font-weight="900" font-size="36" fill="#FFD100">FRESCOS DEL VALLE</text>
+    <text x="0" y="70" font-family="system-ui, sans-serif" font-weight="700" font-size="20" fill="#ffffff">¡LOS PRECIOS MÁS BAJOS DEL VALLE!</text>
+    <text x="0" y="95" font-family="system-ui, sans-serif" font-weight="600" font-size="14" fill="#93C5FD">Vigencia del 1 al 30 del mes actual | La Joya</text>
+  </g>
+
+  <!-- Big Offer Strip -->
+  <rect x="30" y="170" width="740" height="60" rx="14" fill="#E30613" filter="url(#esdw)"/>
+  <text x="400" y="208" font-family="system-ui, sans-serif" font-weight="900" font-size="24" fill="#ffffff" text-anchor="middle">🔥 ¡CANASTA FAMILIAR AL MEJOR PRECIO! 🔥</text>
+
+  <!-- Grid of 4 top featured products -->
+  <!-- Product 1 -->
+  <g transform="translate(40, 250)">
+    <rect width="345" height="370" rx="18" fill="#ffffff" filter="url(#esdw)"/>
+    <rect x="15" y="15" width="90" height="28" rx="8" fill="#E30613"/>
+    <text x="60" y="34" font-family="system-ui, sans-serif" font-weight="900" font-size="12" fill="#ffffff" text-anchor="middle">-25% DCTO</text>
+    <rect x="75" y="60" width="195" height="140" rx="12" fill="#082EB7" opacity="0.1"/>
+    <text x="172" y="130" font-family="system-ui, sans-serif" font-weight="800" font-size="16" fill="#082EB7" text-anchor="middle">PAPA CANCHÁN LA JOYA</text>
+    <text x="172" y="155" font-family="system-ui, sans-serif" font-weight="600" font-size="14" fill="#4B5563" text-anchor="middle">Bolsa Seleccionada 2 Kg</text>
+
+    <text x="30" y="245" font-family="system-ui, sans-serif" font-weight="600" font-size="14" fill="#6B7280" text-decoration="line-through">Antes: S/ 5.80</text>
+    <rect x="25" y="260" width="180" height="50" rx="10" fill="#FFD100"/>
+    <text x="35" y="295" font-family="system-ui, sans-serif" font-weight="900" font-size="30" fill="#082EB7">S/ 4.20</text>
+    
+    <rect x="215" y="260" width="105" height="50" rx="10" fill="#082EB7"/>
+    <text x="267" y="290" font-family="system-ui, sans-serif" font-weight="800" font-size="13" fill="#ffffff" text-anchor="middle">AÑADIR +</text>
+    <text x="172" y="345" font-family="system-ui, sans-serif" font-weight="700" font-size="11" fill="#059669" text-anchor="middle">✔ Stock disponible en La Joya</text>
+  </g>
+
+  <!-- Product 2 -->
+  <g transform="translate(415, 250)">
+    <rect width="345" height="370" rx="18" fill="#ffffff" filter="url(#esdw)"/>
+    <rect x="15" y="15" width="90" height="28" rx="8" fill="#082EB7"/>
+    <text x="60" y="34" font-family="system-ui, sans-serif" font-weight="900" font-size="12" fill="#FFD100" text-anchor="middle">MARCA MASS</text>
+    <rect x="75" y="60" width="195" height="140" rx="12" fill="#D97706" opacity="0.1"/>
+    <text x="172" y="130" font-family="system-ui, sans-serif" font-weight="800" font-size="16" fill="#D97706" text-anchor="middle">CEBOLLA ROJA AREQUIPA</text>
+    <text x="172" y="155" font-family="system-ui, sans-serif" font-weight="600" font-size="14" fill="#4B5563" text-anchor="middle">Malla 1.5 Kg Cosecha Fresca</text>
+
+    <text x="30" y="245" font-family="system-ui, sans-serif" font-weight="600" font-size="14" fill="#6B7280" text-decoration="line-through">Antes: S/ 4.80</text>
+    <rect x="25" y="260" width="180" height="50" rx="10" fill="#FFD100"/>
+    <text x="35" y="295" font-family="system-ui, sans-serif" font-weight="900" font-size="30" fill="#082EB7">S/ 3.50</text>
+    
+    <rect x="215" y="260" width="105" height="50" rx="10" fill="#082EB7"/>
+    <text x="267" y="290" font-family="system-ui, sans-serif" font-weight="800" font-size="13" fill="#ffffff" text-anchor="middle">AÑADIR +</text>
+    <text x="172" y="345" font-family="system-ui, sans-serif" font-weight="700" font-size="11" fill="#059669" text-anchor="middle">✔ Stock disponible en La Joya</text>
+  </g>
+
+  <!-- Product 3 -->
+  <g transform="translate(40, 650)">
+    <rect width="345" height="370" rx="18" fill="#ffffff" filter="url(#esdw)"/>
+    <rect x="15" y="15" width="110" height="28" rx="8" fill="#E30613"/>
+    <text x="70" y="34" font-family="system-ui, sans-serif" font-weight="900" font-size="12" fill="#ffffff" text-anchor="middle">PACK AHORRO</text>
+    <rect x="75" y="60" width="195" height="140" rx="12" fill="#1E40AF" opacity="0.1"/>
+    <text x="172" y="130" font-family="system-ui, sans-serif" font-weight="800" font-size="16" fill="#1E40AF" text-anchor="middle">SHAMPOO SEDAL 650ML</text>
+    <text x="172" y="155" font-family="system-ui, sans-serif" font-weight="600" font-size="14" fill="#4B5563" text-anchor="middle">Frasco Ceramidas Fuerza</text>
+
+    <text x="30" y="245" font-family="system-ui, sans-serif" font-weight="600" font-size="14" fill="#6B7280" text-decoration="line-through">Antes: S/ 18.20</text>
+    <rect x="25" y="260" width="180" height="50" rx="10" fill="#FFD100"/>
+    <text x="35" y="295" font-family="system-ui, sans-serif" font-weight="900" font-size="30" fill="#082EB7">S/ 14.50</text>
+    
+    <rect x="215" y="260" width="105" height="50" rx="10" fill="#082EB7"/>
+    <text x="267" y="290" font-family="system-ui, sans-serif" font-weight="800" font-size="13" fill="#ffffff" text-anchor="middle">AÑADIR +</text>
+    <text x="172" y="345" font-family="system-ui, sans-serif" font-weight="700" font-size="11" fill="#059669" text-anchor="middle">✔ Stock disponible en La Joya</text>
+  </g>
+
+  <!-- Product 4 -->
+  <g transform="translate(415, 650)">
+    <rect width="345" height="370" rx="18" fill="#ffffff" filter="url(#esdw)"/>
+    <rect x="15" y="15" width="110" height="28" rx="8" fill="#15803D"/>
+    <text x="70" y="34" font-family="system-ui, sans-serif" font-weight="900" font-size="12" fill="#ffffff" text-anchor="middle">MEGA FORMATO</text>
+    <rect x="75" y="60" width="195" height="140" rx="12" fill="#082EB7" opacity="0.1"/>
+    <text x="172" y="130" font-family="system-ui, sans-serif" font-weight="800" font-size="16" fill="#082EB7" text-anchor="middle">PAÑALES HUGGIES G 48</text>
+    <text x="172" y="155" font-family="system-ui, sans-serif" font-weight="600" font-size="14" fill="#4B5563" text-anchor="middle">Mega Pack Protect Plus</text>
+
+    <text x="30" y="245" font-family="system-ui, sans-serif" font-weight="600" font-size="14" fill="#6B7280" text-decoration="line-through">Antes: S/ 39.90</text>
+    <rect x="25" y="260" width="180" height="50" rx="10" fill="#FFD100"/>
+    <text x="35" y="295" font-family="system-ui, sans-serif" font-weight="900" font-size="30" fill="#082EB7">S/ 32.90</text>
+    
+    <rect x="215" y="260" width="105" height="50" rx="10" fill="#082EB7"/>
+    <text x="267" y="290" font-family="system-ui, sans-serif" font-weight="800" font-size="13" fill="#ffffff" text-anchor="middle">AÑADIR +</text>
+    <text x="172" y="345" font-family="system-ui, sans-serif" font-weight="700" font-size="11" fill="#059669" text-anchor="middle">✔ Stock disponible en La Joya</text>
+  </g>
+
+  <!-- Footer Pagination -->
+  <rect x="0" y="1040" width="800" height="60" fill="#082EB7"/>
+  <text x="400" y="1076" font-family="system-ui, sans-serif" font-weight="700" font-size="16" fill="#FFD100" text-anchor="middle">PÁGINA 3 DE 3 | ENCARTE MASS DE LA JOYA</text>
+</svg>
