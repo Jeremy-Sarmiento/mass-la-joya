@@ -1,0 +1,42 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Cada push a main recompila y publica el sitio.
+  push:
+    branches: [main]
+  # Permite relanzarlo desde la pestana Actions.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v7
+
+      - name: Instalar, compilar y publicar los artefactos
+        uses: withastro/action@v6
+        with:
+          path: .
+          env:
+            # Subdirectorio en el que GitHub Pages publica el sitio.
+            SITE_BASE: /mass-la-joya/
+            # El ID real del pixel vive en los secretos del repositorio
+            # (Settings > Secrets and variables > Actions), no en el repo.
+            PUBLIC_META_PIXEL_ID: ${{ secrets.PUBLIC_META_PIXEL_ID }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Desplegar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,5 +1,8 @@
 ---
 import '../styles/global.css';
+
+const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID || '';
+const pixelEnabled = Boolean(metaPixelId);
 ---
 
 <!doctype html>
@@ -28,11 +31,13 @@ import '../styles/global.css';
 		<meta name="keywords" content="Tiendas Mass, Mass La Joya, Supermercado La Joya, Abarrotes La Joya Arequipa, Delivery La Joya, Precios Bajos" />
 		<meta property="og:title" content="Mass de La Joya | Lleva Mass pagando Menos" />
 		<meta property="og:description" content="Ahorra todos los días en tu canasta básica con Tiendas Mass en La Joya, Arequipa." />
-		<meta property="og:image" content="/assets/img/banner-hero-1.svg" />
+		<!-- Las redes sociales necesitan una URL absoluta, a diferencia del resto de assets -->
+		<meta property="og:image" content={new URL('assets/img/banner-hero-1.svg', Astro.site)} />
+		<meta property="og:url" content={Astro.site} />
 		<meta property="og:type" content="website" />
 
 		<!-- Favicon -->
-		<link rel="icon" type="image/webp" href="/assets/img/mass_logo.webp" />
+		<link rel="icon" type="image/webp" href="assets/img/mass_logo.webp" />
 
 		<!-- Google Fonts: Montserrat & Fredoka -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,8 +52,92 @@ import '../styles/global.css';
 
 		<!-- Leaflet CSS -->
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+		<!-- Meta Pixel (Facebook). Solo se inyecta si el visitante acepta las cookies;
+		     por eso se define como función y no se ejecuta de forma automática. -->
+		<script is:inline define:vars={{ metaPixelId, pixelEnabled }}>
+			window.MASS_CONSENT_KEY = 'mass-cookie-consent';
+
+			window.loadMetaPixel = function () {
+				if (!pixelEnabled || window._fbq) return;
+				!function (f, b, e, v, n, t, s) {
+					if (f.fbq) return;
+					n = f.fbq = function () {
+						n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+					};
+					if (!f._fbq) f._fbq = n;
+					n.push = n;
+					n.loaded = !0;
+					n.version = '2.0';
+					n.queue = [];
+					t = b.createElement(e);
+					t.async = !0;
+					t.src = v;
+					s = b.getElementsByTagName(e)[0];
+					s.parentNode.insertBefore(t, s);
+				}(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+				window.fbq('init', metaPixelId);
+				window.fbq('track', 'PageView');
+			};
+
+			window.massGetConsent = function () {
+				try {
+					return localStorage.getItem(window.MASS_CONSENT_KEY);
+				} catch (e) {
+					return null;
+				}
+			};
+
+			window.massHideBanner = function () {
+				var banner = document.getElementById('cookie-banner');
+				if (banner) banner.classList.remove('is-visible');
+			};
+
+			window.massSetConsent = function (choice) {
+				try {
+					localStorage.setItem(window.MASS_CONSENT_KEY, choice);
+				} catch (e) {}
+				window.massHideBanner();
+				if (choice === 'accepted') window.loadMetaPixel();
+			};
+
+			window.massOpenConsentSettings = function () {
+				var banner = document.getElementById('cookie-banner');
+				if (banner) banner.classList.add('is-visible');
+			};
+
+			// Si ya aceptó en una visita anterior, el pixel carga sin volver a preguntar.
+			if (window.massGetConsent() === 'accepted') {
+				window.loadMetaPixel();
+			}
+
+			document.addEventListener('DOMContentLoaded', function () {
+				if (pixelEnabled && !window.massGetConsent()) {
+					window.massOpenConsentSettings();
+				}
+			});
+		</script>
 	</head>
 	<body>
 		<slot />
+
+		<!-- Aviso de consentimiento de cookies (Ley N.° 29733) -->
+		<div id="cookie-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-banner-title" aria-live="polite">
+			<div class="cookie-banner-inner">
+				<p id="cookie-banner-title" class="cookie-banner-title">
+					<i class="fa-solid fa-cookie-bicker" aria-hidden="true"></i>
+					<span>Usamos cookies para medir el tráfico del sitio</span>
+				</p>
+				<p class="cookie-banner-text">
+					Usamos cookies de terceros (Meta Pixel) para entender cómo se usa la tienda y mejorar el contenido.
+					Puedes aceptarlas o quedarte solo con las necesarias. Consulta nuestra
+					<a href="javascript:void(0)" onclick="openModal('myModalPrivacidad')">Política de Privacidad</a>.
+				</p>
+				<div class="cookie-banner-actions">
+					<button type="button" class="btn btn-sm btn-mass-pill btn-mass-blue" onclick="massSetConsent('rejected')">Solo las necesarias</button>
+					<button type="button" class="btn btn-sm btn-mass-pill btn-mass-yellow" onclick="massSetConsent('accepted')">Aceptar todas</button>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

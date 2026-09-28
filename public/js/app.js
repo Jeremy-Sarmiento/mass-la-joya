@@ -20,6 +20,32 @@ const state = {
 // WhatsApp Store Number for Mass La Joya
 const LA_JOYA_WHATSAPP = '51997833866';
 
+// ================= META PIXEL (Facebook) =================
+// Los eventos solo se envian si el visitante acepto las cookies y el pixel cargo.
+// Nunca se envian datos personales (nombre, telefono, direccion).
+
+function trackPixel(eventName, params) {
+  if (typeof window.fbq === 'function') {
+    window.fbq('track', eventName, params || {});
+  }
+}
+
+function pixelCategoryName(categoryId) {
+  const cat = CATEGORIES.find(c => c.id === categoryId);
+  return cat ? cat.name : categoryId;
+}
+
+function pixelProductParams(prod) {
+  return {
+    content_ids: [prod.id],
+    content_name: prod.name,
+    content_category: pixelCategoryName(prod.category),
+    content_type: 'product',
+    currency: 'PEN',
+    value: prod.price
+  };
+}
+
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
@@ -223,6 +249,11 @@ function addToCart(productId, qtyToAdd = 1) {
   renderProducts();
   renderFeaturedProducts();
   showToast(`¡Agregaste "${prod.name}" al carrito!`);
+
+  trackPixel('AddToCart', Object.assign(pixelProductParams(prod), {
+    contents: [{ id: prod.id, quantity: qtyToAdd }],
+    value: prod.price * qtyToAdd
+  }));
 }
 
 function changeQty(productId, delta) {
@@ -537,6 +568,19 @@ function checkoutViaWhatsApp() {
   const orderId = 'MASS-LJ-' + Math.floor(100000 + Math.random() * 900000);
   const now = new Date().toLocaleString('es-PE', { dateStyle: 'short', timeStyle: 'short' });
 
+  // Eventos del Pixel. Se omiten a proposito nombre, telefono, direccion y metodo
+  // de pago: Meta prohibe enviar datos personales y puede suspender la cuenta.
+  const checkoutPixel = {
+    content_ids: state.cart.map(item => item.id),
+    content_type: 'product',
+    num_items: state.cart.reduce((sum, item) => sum + item.quantity, 0),
+    currency: 'PEN',
+    value: total,
+    order_id: orderId
+  };
+
+  trackPixel('InitiateCheckout', checkoutPixel);
+
   // Generate formatted WhatsApp message
   let text = `🛒 *NUEVO PEDIDO - MASS DE LA JOYA*\n`;
   text += `━━━━━━━━━━━━━━━━━━━━━\n`;
@@ -573,6 +617,8 @@ function checkoutViaWhatsApp() {
   // Open WhatsApp
   const url = `https://wa.me/${LA_JOYA_WHATSAPP}?text=${encodeURIComponent(text)}`;
   window.open(url, '_blank');
+
+  trackPixel('Purchase', checkoutPixel);
 
   // Close Cart and show order confirmation ticket
   closeCartDrawer();
@@ -663,6 +709,8 @@ function openQuickView(productId) {
   state.quickViewProduct = prod;
   const modalEl = document.getElementById('productQuickViewModal');
   const bodyEl = document.getElementById('quick-view-body');
+
+  trackPixel('ViewContent', pixelProductParams(prod));
 
   if (bodyEl) {
     const inCart = state.cart.find(it => it.id === prod.id);

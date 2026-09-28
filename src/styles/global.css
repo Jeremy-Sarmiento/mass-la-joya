@@ -1910,3 +1910,96 @@ html[data-theme="dark"] .mobile-nav-item:hover { color: var(--mass-yellow); }
 html[data-theme="dark"] .cart-scroll-area::-webkit-scrollbar-track { background: var(--mass-gray-100); }
 html[data-theme="dark"] .cart-scroll-area::-webkit-scrollbar-thumb { background: var(--mass-gray-300); }
 html[data-theme="dark"] .cart-scroll-area::-webkit-scrollbar-thumb:hover { background: var(--mass-gray-600); }
+
+/* Aviso de consentimiento de cookies */
+.cookie-banner {
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, 140%);
+  z-index: 1046;
+  width: calc(100% - 24px);
+  max-width: 620px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 0.32s ease, opacity 0.32s ease, visibility 0.32s;
+}
+
+.cookie-banner.is-visible {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.cookie-banner-inner {
+  background: #ffffff;
+  border: 1px solid var(--mass-gray-200);
+  border-left: 4px solid var(--mass-yellow);
+  border-radius: 14px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18);
+  padding: 16px 18px;
+}
+
+.cookie-banner-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--mass-dark);
+  margin-bottom: 6px;
+}
+
+.cookie-banner-title i {
+  color: var(--mass-yellow-hover);
+}
+
+.cookie-banner-text {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--mass-gray-600);
+  margin-bottom: 12px;
+}
+
+.cookie-banner-text a {
+  color: var(--mass-blue);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.cookie-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.cookie-banner-actions .btn {
+  margin: 0;
+}
+
+/* En móvil se apila encima de la barra de navegación inferior */
+@media (max-width: 991.98px) {
+  .cookie-banner {
+    bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .cookie-banner-actions {
+    justify-content: stretch;
+  }
+
+  .cookie-banner-actions .btn {
+    flex: 1 1 auto;
+  }
+}
+
+html[data-theme="dark"] .cookie-banner-inner {
+  background: #131B33;
+  border-color: var(--mass-gray-200);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.5);
+}
+html[data-theme="dark"] .cookie-banner-title { color: var(--mass-yellow); }
+html[data-theme="dark"] .cookie-banner-text { color: var(--mass-gray-300); }
+html[data-theme="dark"] .cookie-banner-text a { color: #93C5FD; }

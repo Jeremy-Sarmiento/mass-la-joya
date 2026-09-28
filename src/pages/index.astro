@@ -12,7 +12,7 @@ import Layout from '../layouts/Layout.astro';
 	        <!-- Logo & Brand -->
 	        <div class="col-8 col-md-3">
 	          <a href="#inicio" class="mass-brand-container">
-	            <img src="/assets/img/mass_logo.webp" alt="Logo Mass" class="mass-brand-logo">
+	            <img src="assets/img/mass_logo.webp" alt="Logo Mass" class="mass-brand-logo">
 	            <div class="mass-brand-text">
 	              <span class="mass-brand-title">mass</span>
 	              <span class="mass-brand-badge">La Joya</span>
@@ -83,17 +83,17 @@ import Layout from '../layouts/Layout.astro';
 	        <div class="carousel-inner">
 	          <div class="carousel-item active">
 	            <a href="#seccion-catalogo">
-	              <img src="/assets/img/banner-hero-1.svg" class="hero-slide-img" alt="¡Los mejores precios en Mass de La Joya!">
+	              <img src="assets/img/banner-hero-1.svg" class="hero-slide-img" alt="¡Los mejores precios en Mass de La Joya!">
 	            </a>
 	          </div>
 	          <div class="carousel-item">
 	            <a href="javascript:void(0)" onclick="openEncarteModal(1)">
-	              <img src="/assets/img/banner-hero-2.svg" class="hero-slide-img" alt="Encarte Digital Mass La Joya">
+	              <img src="assets/img/banner-hero-2.svg" class="hero-slide-img" alt="Encarte Digital Mass La Joya">
 	            </a>
 	          </div>
 	          <div class="carousel-item">
 	            <a href="javascript:void(0)" onclick="openCartDrawer()">
-	              <img src="/assets/img/banner-hero-3.svg" class="hero-slide-img" alt="Delivery Express en La Joya">
+	              <img src="assets/img/banner-hero-3.svg" class="hero-slide-img" alt="Delivery Express en La Joya">
 	            </a>
 	          </div>
 	        </div>
@@ -202,7 +202,7 @@ import Layout from '../layouts/Layout.astro';
 	            </div>
 	          </div>
 	          <div class="col-12 col-lg-5 text-center">
-	            <img src="/assets/img/mano-catalogos.webp" alt="Catálogo Mass" class="img-fluid" style="max-height: 280px;">
+	            <img src="assets/img/mano-catalogos.webp" alt="Catálogo Mass" class="img-fluid" style="max-height: 280px;">
 	          </div>
 	        </div>
 	      </div>
@@ -351,7 +351,7 @@ import Layout from '../layouts/Layout.astro';
 	      <div class="fuerza-amarilla-section">
 	        <div class="row align-items-center">
 	          <div class="col-12 col-lg-7 mb-4 mb-lg-0">
-	            <img src="/assets/img/fuerza-amarilla.png" alt="Fuerza Amarilla Mass" class="img-fluid mb-3" style="max-height: 90px;">
+	            <img src="assets/img/fuerza-amarilla.png" alt="Fuerza Amarilla Mass" class="img-fluid mb-3" style="max-height: 90px;">
 	            <h2 class="fw-bold text-primary display-6 mb-3">¡ÚNETE A LA FUERZA AMARILLA EN LA JOYA!</h2>
 	            <p class="lead fw-semibold text-dark mb-2">¡Tú pones el talento y juntos desarrollamos tu potencial!</p>
 	            <p class="text-dark mb-4">
@@ -362,7 +362,7 @@ import Layout from '../layouts/Layout.astro';
 	            </button>
 	          </div>
 	          <div class="col-12 col-lg-5 text-center">
-	            <img src="/assets/img/trabajo.webp" alt="Trabaja en Tiendas Mass" class="img-fluid rounded-4 shadow-sm" style="max-height: 320px;">
+	            <img src="assets/img/trabajo.webp" alt="Trabaja en Tiendas Mass" class="img-fluid rounded-4 shadow-sm" style="max-height: 320px;">
 	          </div>
 	        </div>
 	      </div>
@@ -445,14 +445,14 @@ import Layout from '../layouts/Layout.astro';
 	      <!-- Métodos de Pago -->
 	      <div class="text-center mb-5">
 	        <h4 class="footer-heading mb-3">MÉTODOS DE PAGO ACEPTADOS</h4>
-	        <img src="/assets/img/metodos-pago.png" alt="Métodos de pago en Tiendas Mass" class="img-fluid" style="max-height: 48px;">
+	        <img src="assets/img/metodos-pago.png" alt="Métodos de pago en Tiendas Mass" class="img-fluid" style="max-height: 48px;">
 	      </div>
 
 	      <div class="row g-4 mb-4">
 	        <!-- About Mass La Joya -->
 	        <div class="col-12 col-md-4">
 	          <div class="d-flex align-items-center gap-2 mb-3">
-	            <img src="/assets/img/mass_logo.webp" alt="Mass Logo" style="height: 42px;">
+	            <img src="assets/img/mass_logo.webp" alt="Mass Logo" style="height: 42px;">
 	            <span class="fs-4 fw-bold text-primary">mass <span class="badge bg-primary text-warning small">La Joya</span></span>
 	          </div>
 	          <p class="text-secondary small">
@@ -487,11 +487,12 @@ import Layout from '../layouts/Layout.astro';
 	          <ul class="footer-links">
 	            <li><a href="javascript:void(0)" onclick="openModal('myModalPoliticas')">Políticas de Cambios y Devoluciones</a></li>
 	            <li><a href="javascript:void(0)" onclick="openModal('libroReclamacionesModal')">Libro de Reclamaciones</a></li>
-	            <li><a href="javascript:void(0)" onclick="alert('Tiendas Mass garantiza la privacidad y protección de los datos de sus clientes conforme a la Ley N° 29733.')">Políticas de Privacidad</a></li>
+	            <li><a href="javascript:void(0)" onclick="openModal('myModalPrivacidad')">Políticas de Privacidad</a></li>
+	            <li><a href="javascript:void(0)" onclick="massOpenConsentSettings()">Configurar cookies</a></li>
 	          </ul>
 	          <div class="mt-3">
 	            <a href="javascript:void(0)" onclick="openModal('libroReclamacionesModal')">
-	              <img src="/assets/img/libroReclamaciones.webp" alt="Libro de Reclamaciones Virtual" style="max-width: 160px;">
+	              <img src="assets/img/libroReclamaciones.webp" alt="Libro de Reclamaciones Virtual" style="max-width: 160px;">
 	            </a>
 	          </div>
 	        </div>
@@ -714,7 +715,7 @@ import Layout from '../layouts/Layout.astro';
 	            <button id="encarte-prev-btn" class="encarte-nav-btn encarte-nav-prev" onclick="changeEncartePage(-1)">
 	              <i class="fa-solid fa-chevron-left"></i>
 	            </button>
-	            <img id="encarte-page-image" src="/assets/img/encarte-page-1.svg" class="encarte-page-img" alt="Encarte de ofertas">
+	            <img id="encarte-page-image" src="assets/img/encarte-page-1.svg" class="encarte-page-img" alt="Encarte de ofertas">
 	            <button id="encarte-next-btn" class="encarte-nav-btn encarte-nav-next" onclick="changeEncartePage(1)">
 	              <i class="fa-solid fa-chevron-right"></i>
 	            </button>
@@ -842,6 +843,57 @@ import Layout from '../layouts/Layout.astro';
 	    </div>
 	  </div>
 
+	  <!-- ================= MODAL: POLITICA DE PRIVACIDAD ================= -->
+	  <div class="modal fade" id="myModalPrivacidad" tabindex="-1" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+	      <div class="modal-content rounded-4 border-0 shadow-lg">
+	        <div class="modal-header bg-primary text-white border-0">
+	          <h5 class="modal-title fw-bold text-warning"><i class="fa-solid fa-shield-halved"></i> Política de Privacidad</h5>
+	          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+	        </div>
+	        <div class="modal-body p-4">
+	          <p class="text-secondary small">
+	            Tiendas Mass de La Joya garantiza la privacidad y protección de los datos personales de sus clientes,
+	            conforme a la <strong>Ley N.° 29733</strong>, Ley de Protección de Datos Personales del Perú, y su
+	            reglamento aprobado mediante Decreto Supremo N.° 003-2013-JUS.
+	          </p>
+
+	          <h6 class="fw-bold text-dark mt-3 mb-2">Datos que recopilamos</h6>
+	          <ul class="text-secondary small mb-0">
+	            <li><strong>Datos del pedido:</strong> nombre, teléfono, dirección de entrega y zona, cuando realizas un pedido por WhatsApp.</li>
+	            <li><strong>Carrito de compras:</strong> los productos que agregas se guardan en el almacenamiento local de tu navegador, no en nuestros servidores.</li>
+	            <li><strong>Preferencias:</strong> tema claro/oscuro y tu elección sobre cookies.</li>
+	          </ul>
+
+	          <h6 class="fw-bold text-dark mt-3 mb-2">Cookies y tecnologías de medición</h6>
+	          <p class="text-secondary small">
+	            Utilizamos el <strong>Meta Pixel (Facebook)</strong> para medir las visitas y el uso de la tienda, con el fin
+	            de mejorar nuestros productos y nuestras campañas publicitarias. Este recurso instala cookies y envía
+	            información sobre tu navegación a Meta.
+	          </p>
+	          <p class="text-secondary small">
+	            El píxel <strong>solo se activa después de que aceptas</strong> las cookies en el aviso que aparece al
+	            ingresar al sitio. Si prefieres no hacerlo, el sitio funciona con normalidad. Puedes cambiar tu decisión
+	            en cualquier momento con el enlace <em>Configurar cookies</em> del pie de página.
+	          </p>
+	          <p class="text-secondary small">
+	            No enviamos al píxel tu nombre, teléfono, dirección ni método de pago.
+	          </p>
+
+	          <h6 class="fw-bold text-dark mt-3 mb-2">Tus derechos</h6>
+	          <p class="text-secondary small mb-0">
+	            Puedes solicitar el acceso, la rectificación o la eliminación de tus datos personales escribiendo a la
+	            tienda a través del WhatsApp publicado en esta página. Atendemos las solicitudes en un plazo máximo de
+	            veinte días hábiles, conforme al artículo 14 del reglamento de la Ley N.° 29733.
+	          </p>
+	        </div>
+	        <div class="modal-footer border-0 pt-0">
+	          <button type="button" class="btn-mass-pill btn-mass-blue" data-bs-dismiss="modal">Entendido</button>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
 	  <!-- ================= MODAL: TRABAJA CON NOSOTROS ================= -->
 	  <div class="modal fade" id="trabajaModal" tabindex="-1" aria-hidden="true">
 	    <div class="modal-dialog modal-dialog-centered">
@@ -932,8 +984,8 @@ import Layout from '../layouts/Layout.astro';
 	  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 	  <!-- Products & Main Application Scripts -->
-	  <script src="/js/products.js" is:inline></script>
-	  <script src="/js/app.js" is:inline></script>
+	  <script src="js/products.js" is:inline></script>
+	  <script src="js/app.js" is:inline></script>
 
 	  <!-- UI/UX: Scrollspy + Back to top -->
 	  <script is:inline>
