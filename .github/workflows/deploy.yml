@@ -21,6 +21,10 @@ jobs:
       - name: Descargar el repositorio
         uses: actions/checkout@v7
 
+      # pnpm debe existir antes que setup-node, porque el cache lo necesita.
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v6
+
       - name: Instalar Node
         uses: actions/setup-node@v7
         with:
