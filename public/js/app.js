@@ -18,7 +18,7 @@ const state = {
 };
 
 // WhatsApp Store Number for Mass La Joya
-const LA_JOYA_WHATSAPP = '51987654321';
+const LA_JOYA_WHATSAPP = '51997833866';
 
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', () => {

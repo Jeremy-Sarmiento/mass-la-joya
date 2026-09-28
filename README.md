@@ -19,16 +19,69 @@ Migrada a [Astro](https://astro.build) con **Tailwind CSS v4** como sistema de d
 
 ---
 
-## 🚀 Cómo Ejecutar
+## 🚀 Cómo Ejecutar Localmente
 
-Usa `pnpm` (proyecto en mono-repo con workspace):
+### Requisitos previos
+
+| Herramienta | Versión | Cómo obtenerla |
+| --- | --- | --- |
+| **Node.js** | 22.12 o superior | <https://nodejs.org> (instalador `.msi` en Windows, `.pkg` en macOS) |
+| **pnpm** | cualquiera | `npm install -g pnpm` |
+
+> ¿No quieres usar `pnpm`? Todos los comandos de abajo funcionan igual con `npm`: `npm install`, `npm run dev`, `npm run build`, `npm run preview`.
+
+### Paso 1 · Descargar el proyecto
+
+```bash
+git clone https://github.com/Jeremy-Sarmiento/mass-la-joya.git
+cd mass-la-joya
+```
+
+### Paso 2 · Instalar las dependencias
 
 ```bash
 pnpm install
-pnpm dev          # Dev server en http://localhost:4321 (usar `pnpm astro -- dev --background` en servidores)
-pnpm build        # Build de producción en ./dist/
-pnpm preview      # Previsualizar el build
 ```
+
+### Paso 3 · Arrancar el sitio
+
+```bash
+pnpm dev
+```
+
+Abre <http://localhost:4321> en tu navegador. Los cambios en el código se aplican automáticamente, no hace falta repetir el comando.
+
+### Paso 4 · Otros comandos
+
+| Comando | Qué hace |
+| --- | --- |
+| `pnpm dev` | Servidor de desarrollo con recarga automática en `http://localhost:4321` |
+| `pnpm build` | Genera el sitio estático de producción en `./dist/` |
+| `pnpm preview` | Sirve localmente el resultado de `pnpm build` para revisarlo |
+
+> ⚠️ **Importante si publicas el sitio desde Apache u otro servidor web:** lo que se publica es el contenido de `dist/`, no `src/`. Ejecuta `pnpm build` después de cada cambio para que se refleje.
+
+### Administrar el servidor de desarrollo
+
+Astro 7 lo deja corriendo en segundo plano, así que la terminal queda libre. Para controlarlo:
+
+```bash
+pnpm astro dev status   # Ver si está activo y en qué puerto
+pnpm astro dev logs     # Ver la consola del servidor
+pnpm astro dev stop     # Detenerlo
+```
+
+### Problemas frecuentes
+
+**"El puerto 4321 está ocupado"** — arranca en otro puerto:
+
+```bash
+pnpm dev --port 4322
+```
+
+**"pnpm: command not found"** — falta instalarlo: `npm install -g pnpm`.
+
+**"La página se ve sin estilos"** — no abras `dist/index.html` con doble clic. Ese archivo no incluye el CSS compilado; usa `pnpm dev` mientras programas y `pnpm build` solo para generar la versión final.
 
 ## 📁 Estructura del Proyecto
 
