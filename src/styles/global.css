@@ -1804,6 +1804,11 @@ html[data-theme="dark"] .cart-delivery-banner {
   color: var(--mass-acc);
 }
 
+/* Enlaces del pie (Políticas de Privacidad, Configurar cookies) en blanco sobre el fondo oscuro */
+html[data-theme="dark"] .footer-links a {
+  color: #FFFFFF;
+}
+
 /* Bootstrap utilities en oscuro */
 html[data-theme="dark"] .text-primary { color: var(--mass-acc) !important; }
 html[data-theme="dark"] .text-dark { color: #E8ECF8 !important; }
