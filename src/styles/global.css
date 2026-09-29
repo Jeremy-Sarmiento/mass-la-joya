@@ -2006,5 +2006,5 @@ html[data-theme="dark"] .cookie-banner-inner {
   box-shadow: 0 12px 34px rgba(0, 0, 0, 0.5);
 }
 html[data-theme="dark"] .cookie-banner-title { color: var(--mass-yellow); }
-html[data-theme="dark"] .cookie-banner-text { color: var(--mass-gray-300); }
+html[data-theme="dark"] .cookie-banner-text { color: #b7c4cf }
 html[data-theme="dark"] .cookie-banner-text a { color: #93C5FD; }
