@@ -19,5 +19,8 @@
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@bruits/satteri-wasm32-wasi": "0.10.5"
   }
 }
