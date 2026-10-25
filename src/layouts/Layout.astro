@@ -13,6 +13,9 @@ const pixelEnabled = Boolean(metaPixelId);
 		<meta name="generator" content={Astro.generator} />
 		<title>Mass de La Joya | ¡Lleva Mass pagando Menos! - Arequipa</title>
 
+		<!-- Canonical: evita contenido duplicado (p. ej. /index.html vs /) -->
+		<link rel="canonical" href={new URL('.', Astro.site)} />
+
 		<!-- Tema (claro/oscuro) antes de pintar -->
 		<script is:inline>
 			(function () {
@@ -32,7 +35,9 @@ const pixelEnabled = Boolean(metaPixelId);
 		<meta property="og:title" content="Mass de La Joya | Lleva Mass pagando Menos" />
 		<meta property="og:description" content="Ahorra todos los días en tu canasta básica con Tiendas Mass en La Joya, Arequipa." />
 		<!-- Las redes sociales necesitan una URL absoluta, a diferencia del resto de assets -->
-		<meta property="og:image" content={new URL('assets/img/banner-hero-1.svg', Astro.site)} />
+		<!-- Las redes sociales no leen SVG: se usa un PNG rasterizado para la vista previa -->
+		<meta property="og:image" content={new URL('assets/img/og-cover.png', Astro.site)} />
+		<meta name="twitter:card" content="summary_large_image" />
 		<meta property="og:url" content={Astro.site} />
 		<meta property="og:type" content="website" />
 
@@ -125,7 +130,7 @@ const pixelEnabled = Boolean(metaPixelId);
 		<div id="cookie-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-banner-title" aria-live="polite">
 			<div class="cookie-banner-inner">
 				<p id="cookie-banner-title" class="cookie-banner-title">
-					<i class="fa-solid fa-cookie-bicker" aria-hidden="true"></i>
+					<i class="fa-solid fa-cookie-bite" aria-hidden="true"></i>
 					<span>Usamos cookies para medir el tráfico del sitio</span>
 				</p>
 				<p class="cookie-banner-text">
