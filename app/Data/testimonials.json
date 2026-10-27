@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Doña Rosaura Quispe",
+    "zone": "Vecina de El Triunfo, La Joya",
+    "comment": "¡Desde que abrió Mass en La Joya ahorro casi 80 soles por semana en mi canasta familiar! El arroz y el aceite son baratísimos.",
+    "rating": 5,
+    "date": "Hace 3 días"
+  },
+  {
+    "name": "Carlos Mendoza",
+    "zone": "La Joya Centro",
+    "comment": "Hice mi pedido por WhatsApp y en menos de 40 minutos ya lo tenía en mi puerta. Pagué con Yape facilito. ¡100% recomendado!",
+    "rating": 5,
+    "date": "Hace 1 semana"
+  },
+  {
+    "name": "Marina Huanca",
+    "zone": "San Camilo, La Joya",
+    "comment": "La atención de los chicos de la Fuerza Amarilla es excelente, siempre atentos y con una sonrisa. Las ofertas del encarte quincenal no tienen competencia.",
+    "rating": 5,
+    "date": "Hace 4 días"
+  }
+]

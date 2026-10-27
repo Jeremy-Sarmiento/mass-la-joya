@@ -2,10 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "./node_modules/.bin/astro dev",
-      "name": "Development server",
+      "name": "Servidor PHP (Mass La Joya)",
+      "type": "php",
       "request": "launch",
-      "type": "node-terminal"
+      "runtimeArgs": ["-S", "localhost:8000", "-t", "."],
+      "program": "${workspaceFolder}/index.php",
+      "cwd": "${workspaceFolder}",
+      "port": 8000
     }
   ]
 }

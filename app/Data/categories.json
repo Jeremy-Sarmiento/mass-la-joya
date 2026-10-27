@@ -1,0 +1,68 @@
+[
+  {
+    "id": "todos",
+    "name": "Todos los Productos",
+    "icon": "fa-basket-shopping",
+    "count": 58
+  },
+  {
+    "id": "abarrotes",
+    "name": "Abarrotes y Despensa",
+    "icon": "fa-bowl-rice",
+    "count": 12
+  },
+  {
+    "id": "lacteos",
+    "name": "Lácteos y Huevos",
+    "icon": "fa-egg",
+    "count": 6
+  },
+  {
+    "id": "bebidas",
+    "name": "Bebidas y Aguas",
+    "icon": "fa-bottle-water",
+    "count": 7
+  },
+  {
+    "id": "limpieza",
+    "name": "Limpieza del Hogar",
+    "icon": "fa-pump-soap",
+    "count": 7
+  },
+  {
+    "id": "cuidado",
+    "name": "Cuidado Personal y Bebé",
+    "icon": "fa-hands-bubbles",
+    "count": 6
+  },
+  {
+    "id": "snacks",
+    "name": "Snacks y Golosinas",
+    "icon": "fa-cookie-bite",
+    "count": 5
+  },
+  {
+    "id": "desayunos",
+    "name": "Panadería y Desayunos",
+    "icon": "fa-mug-hot",
+    "count": 5
+  },
+  {
+    "id": "embutidos",
+    "name": "Embutidos y Congelados",
+    "icon": "fa-drumstick-bite",
+    "count": 3
+  },
+  {
+    "id": "mascotas",
+    "name": "Mascotas",
+    "icon": "fa-dog",
+    "count": 3
+  },
+  {
+    "id": "frescos",
+    "name": "Frescos del Valle La Joya",
+    "icon": "fa-apple-whole",
+    "count": 4
+  }
+]

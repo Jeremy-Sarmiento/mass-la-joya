@@ -1,212 +1,296 @@
-# 🛒 Mass de La Joya - Tienda Web Oficial Hard Discount (Astro + Tailwind)
+# 🛒 Mass de La Joya — Tienda Web Oficial (PHP + MVC)
 
-Tienda web interactiva y moderna para **"Mass de La Joya"** (Arequipa, Perú), inspirada en la estética, paleta de colores (amarillo `#FFD100`, azul `#082EB7`, rojo `#E30613`), catálogo y funcionalidades de [Tiendas Mass Perú](https://www.tiendasmass.com.pe/).
-
-Migrada a [Astro](https://astro.build) con **Tailwind CSS v4** como sistema de diseño.
+Tienda web interactiva de **Mass de La Joya** (Arequipa, Perú), migrada de Astro a **PHP 8 con arquitectura MVC** y sin dependencias externas de backend. Conserva el diseño, la paleta de marca (amarillo `#FFD100`, azul `#082EB7`, rojo `#E30613`), el catálogo de 58 productos y toda la interacción del carrito.
 
 ---
 
-## 🌟 Características Principales
+## 🌟 Características
 
+- 🧱 **MVC propio**: front controller, router, controladores, modelos, vistas y capa de almacenamiento.
 - 🏷️ Identidad de marca Mass: logotipo, estilo *hard discount* y precios bajos (`PRECIO MASS`, `2x1`, `OFERTÓN`).
-- 🥫 Catálogo completo (58+ productos) en `js/products.js`.
-- 🛒 Carrito interactivo con `localStorage`, cupones de descuento y **pedido por WhatsApp**.
+- 🥫 Catálogo de **58 productos** servido desde PHP, con filtros y ordenamiento.
+- 🛒 Carrito interactivo con `localStorage`, cupones y **pedido por WhatsApp**.
+- 💾 **Pedidos, reclamos, postulaciones y ofertas de local guardados en el servidor** (no solo un `alert`).
+- ✅ Validación de datos en el servidor, CSRF, escapado de HTML y recálculo de precios/totales.
 - 📖 Encarte Digital Quincenal interactivo (3 páginas).
 - 📍 Ubícanos en La Joya con mapa OpenStreetMap.
-- 👥 Fuerza Amarilla (postulación laboral), Ofrece tu Local y Libro de Reclamaciones.
-- 🧭 Mejoras de UX: scroll suave con scrollspy, botón volver-arriba, tira de beneficios, toast accesible, feedback táctil y soporte para *safe areas* (iPhone).
-- 🎨 Paleta unificada Mass: los componentes de Bootstrap (`text-primary`, `bg-warning`, botones…) sobreescriben sus variables para usar los colores de marca, no los por defecto.
+- 👥 Fuerza Amarilla, Ofrece tu Local y Libro de Reclamaciones Virtual.
+- 🧭 UX: scroll suave con scrollspy, botón volver-arriba, tira de beneficios, toasts, feedback táctil y *safe areas*.
+- 🎨 Paleta unificada Mass sobre Bootstrap 5.3 + CSS propio.
+- 🌙 Modo oscuro persistente.
 
 ---
 
-## 🚀 Cómo Ejecutar Localmente
+## 🚀 Requisitos y ejecución
 
-### Requisitos previos
-
-| Herramienta | Versión | Cómo obtenerla |
-| --- | --- | --- |
-| **Node.js** | 22.12 o superior | <https://nodejs.org> (instalador `.msi` en Windows, `.pkg` en macOS) |
-| **pnpm** | cualquiera | `npm install -g pnpm` |
-
-> ¿No quieres usar `pnpm`? Todos los comandos de abajo funcionan igual con `npm`: `npm install`, `npm run dev`, `npm run build`, `npm run preview`.
-
-### Paso 1 · Descargar el proyecto
-
-```bash
-git clone https://github.com/Jeremy-Sarmiento/mass-la-joya.git
-cd mass-la-joya
-```
-
-### Paso 2 · Instalar las dependencias
-
-```bash
-pnpm install
-```
-
-### Paso 3 · Arrancar el sitio
-
-```bash
-pnpm dev
-```
-
-Abre <http://localhost:4321> en tu navegador. Los cambios en el código se aplican automáticamente, no hace falta repetir el comando.
-
-### Paso 4 · Otros comandos
-
-| Comando | Qué hace |
+| Herramienta | Versión |
 | --- | --- |
-| `pnpm dev` | Servidor de desarrollo con recarga automática en `http://localhost:4321` |
-| `pnpm build` | Genera el sitio estático de producción en `./dist/` |
-| `pnpm preview` | Sirve localmente el resultado de `pnpm build` para revisarlo |
+| **PHP** | 8.1 o superior (probado con 8.5) |
+| Extensiones PHP | `mbstring`, `json`, `session` (vienen por defecto) |
+| Servidor web | Apache con `mod_php`, Nginx + PHP-FPM, o el servidor embebido de PHP |
 
-> ⚠️ **Importante si publicas el sitio desde Apache u otro servidor web:** lo que se publica es el contenido de `dist/`, no `src/`. Ejecuta `pnpm build` después de cada cambio para que se refleje.
+No hace falta Node, Composer ni base de datos.
 
-### Administrar el servidor de desarrollo
-
-Astro 7 lo deja corriendo en segundo plano, así que la terminal queda libre. Para controlarlo:
+### Arrancar el sitio
 
 ```bash
-pnpm astro dev status   # Ver si está activo y en qué puerto
-pnpm astro dev logs     # Ver la consola del servidor
-pnpm astro dev stop     # Detenerlo
+cd mass-la-joya
+php -S localhost:8000 -t .
 ```
 
-### Problemas frecuentes
+Abre <http://localhost:8000/> en el navegador.
 
-**"El puerto 4321 está ocupado"** — arranca en otro puerto:
+> En este servidor el proyecto también funciona en un subdirectorio, por ejemplo
+> `http://localhost/mass-la-joya/index.php`. Todas las rutas internas se calculan
+> a partir de la ubicación de `index.php`, así que no hay que configurar nada.
+>
+> `index.html` solo redirige a `index.php` para servidores Apache cuya
+> `DirectoryIndex` no incluye PHP. Nunca contiene lógica de la aplicación.
+
+### Pruebas
 
 ```bash
-pnpm dev --port 4322
+php tests/smoke.php   # catálogo, pedidos, validaciones y formularios
+find app config tests index.php -name '*.php' -print0 | xargs -0 -n1 php -l
 ```
 
-**"pnpm: command not found"** — falta instalarlo: `npm install -g pnpm`.
+Las pruebas se ejecutan también en cada `push` mediante `.github/workflows/php.yml`.
 
-**"La página se ve sin estilos"** — no abras `dist/index.html` con doble clic. Ese archivo no incluye el CSS compilado; usa `pnpm dev` mientras programas y `pnpm build` solo para generar la versión final.
+---
+
+## 🧭 Cómo funciona el MVC
+
+```text
+Petición HTTP
+   └─ index.php ................ front controller
+        └─ App\Core\Router ..... resuelve la ruta
+             └─ Controller .... recibe la petición
+                  ├─ Model .... catálogo, pedidos, formularios
+                  └─ View ..... HTML + layout
+```
+
+### Rutas principales
+
+| Método | Ruta | Destino |
+| --- | --- | --- |
+| `GET` | `/` o `?r=home` | `HomeController@index` |
+| `GET` | `?r=home&categoria=lacteos&q=leche&orden=price-asc` | Catálogo filtrado y ordenado en el servidor |
+| `GET` | `?r=api/health` | Estado de la aplicación (JSON) |
+| `POST` | `?r=api/orders` | Registrar pedido del carrito |
+| `POST` | `?r=api/claims` | Libro de Reclamaciones |
+| `POST` | `?r=api/job-applications` | Fuerza Amarilla |
+| `POST` | `?r=api/local-offers` | Oferta de local |
+
+El router usa `index.php?r=...` para funcionar en cualquier subdirectorio sin
+`mod_rewrite`. También reconoce `PATH_INFO` si tu servidor lo prefiere.
+
+Los endpoints detectan si la petición viene de `fetch()` (`Accept: application/json`)
+y responden JSON; si es un formulario HTML normal, guardan el registro y
+redirigen con un mensaje flash. Es decir, los formularios funcionan incluso sin
+JavaScript.
+
+---
+
+## 📁 Estructura del proyecto
+
+```text
+mass-la-joya/
+├── index.php                  # Front controller
+├── index.html                 # Redirección para Apache (sin lógica)
+├── config/
+│   └── config.php             # Configuración (lee .env)
+├── app/
+│   ├── bootstrap.php          # Autoload, entorno, sesión y errores
+│   ├── Core/
+│   │   ├── Router.php
+│   │   ├── Controller.php
+│   │   ├── Request.php
+│   │   ├── View.php
+│   │   ├── Validator.php
+│   │   └── ValidationException.php
+│   ├── Controllers/
+│   │   ├── HomeController.php
+│   │   └── ApiController.php
+│   ├── Models/
+│   │   ├── Product.php        # Catálogo
+│   │   ├── Category.php       # Categorías y contadores
+│   │   ├── DeliveryZone.php   # Zonas y costo de delivery
+│   │   ├── Coupon.php         # Cupones
+│   │   ├── Testimonial.php
+│   │   ├── Order.php          # Pedido + recálculo de totales
+│   │   ├── Claim.php          # Libro de reclamaciones
+│   │   ├── JobApplication.php
+│   │   ├── LocalOffer.php
+│   │   └── JsonRecord.php     # Base de persistencia
+│   ├── Services/
+│   │   └── Storage.php        # Archivos JSON con bloqueo y guarda PHP
+│   ├── Data/
+│   │   ├── products.json
+│   │   ├── categories.json
+│   │   ├── delivery_zones.json
+│   │   ├── testimonials.json
+│   │   ├── coupons.json
+│   │   └── store.php
+│   ├── Support/
+│   │   ├── helpers.php        # e(), url(), money(), csrf...
+│   │   └── Env.php            # Lector de .env
+│   └── Views/
+│       ├── layouts/main.php
+│       ├── pages/home.php
+│       └── partials/*.php     # Header, hero, catálogo, modales...
+├── assets/
+│   ├── css/global.css
+│   ├── js/app.js
+│   ├── img/
+│   └── products/
+├── storage/                   # Datos generados (no versionados)
+├── tests/smoke.php
+└── .github/workflows/php.yml
+```
+
+---
+
+## 💾 Datos y persistencia
+
+El catálogo vive en `app/Data/*.json` y los registros generados por los usuarios
+en `storage/`:
+
+| Archivo | Contenido |
+| --- | --- |
+| `storage/orders.php` | Pedidos del carrito |
+| `storage/claims.php` | Hojas de reclamación |
+| `storage/job_applications.php` | Postulaciones |
+| `storage/local_offers.php` | Ofertas de locales |
+
+Cada archivo empieza con una guarda `<?php http_response_code(403); exit; ?>`,
+así que pedirlo directamente devuelve **403** aunque el servidor no respete
+`.htaccess`. La escritura usa `flock()` para evitar corrupciones por peticiones
+simultáneas.
+
+No se necesita base de datos. Si más adelante quieres usar MySQL, basta con
+reemplazar `JsonRecord`/`Storage` por un modelo PDO: los controladores y las
+vistas no dependen del formato de almacenamiento.
+
+### Pedidos: el servidor manda
+
+El navegador solo envía `id` y `cantidad`. `Order::place()` busca cada producto
+en el catálogo, recalcula subtotal, delivery y descuento, y guarda el pedido
+rechazando:
+
+- carritos vacíos o cantidades fuera de rango (1–99),
+- productos inexistentes o agotados,
+- zonas de entrega o métodos de pago inválidos,
+- cupones inexistentes,
+- más de 200 unidades o 30 productos distintos.
+
+Después, el navegador abre WhatsApp con el resumen. El pedido queda registrado
+en el servidor con el mismo código mostrado al cliente (`MASS-LJ-XXXXXX`).
+
+---
+
+## 🎟️ Cupones disponibles
+
+| Código | Descuento |
+| --- | --- |
+| `MASSJOYERO` | 10 % |
+| `LAJOYA10` | 10 % |
+| `MASS20` | 20 % |
+
+Para añadir uno nuevo, edita `app/Data/coupons.json`. El servidor lo valida al
+registrar el pedido.
+
+---
 
 ## 📊 Meta Pixel (Facebook)
 
-El sitio mide visitas con el **Meta Pixel**, que **no carga hasta que el visitante acepta las cookies**.
+El píxel **no se carga hasta que el visitante acepta las cookies**. La elección
+se guarda en `localStorage` bajo `mass-cookie-consent` y el enlace
+**Configurar cookies** del pie permite cambiarla.
 
 ### Configuración
 
-En desarrollo, copia `.env.example` como `.env` y pon tu ID real:
-
 ```bash
 cp .env.example .env
-# luego edita .env y rellena PUBLIC_META_PIXEL_ID
+# edita .env y rellena META_PIXEL_ID
 ```
 
-El ID se encuentra en **Meta Business Suite → Configuración del negocio → Eventos → Píxel de Facebook**. Sin este valor el píxel no se carga y el aviso de cookies no aparece, así que el sitio funciona igual.
+También se acepta el nombre anterior `PUBLIC_META_PIXEL_ID`, para no romper
+despliegues existentes. Sin valor, el píxel y el aviso de cookies no aparecen.
 
-Como `.env` está en `.gitignore`, el ID real nunca se sube al repositorio: en GitHub Pages llega como secreto de Actions.
+Eventos enviados: `PageView`, `ViewContent`, `AddToCart`, `InitiateCheckout` y
+`Purchase`. Nunca se envían nombre, teléfono, dirección ni método de pago.
 
-### Consentimiento
+> ⚠️ `Purchase` se dispara al abrir WhatsApp, no cuando el cliente confirma el
+> pedido. Para un conteo exacto habría que dispararlo desde un webhook del
+> servidor.
 
-La elección del visitante se guarda en `localStorage`, bajo la clave `mass-cookie-consent`:
+---
 
-| Estado | Aviso | Píxel |
-| --- | --- | --- |
-| Sin definir | Visible | Apagado |
-| `accepted` | Oculto | Carga al entrar |
-| `rejected` | Oculto | Apagado |
+## 🌐 Despliegue en Apache
 
-El enlace **"Configurar cookies"** del pie de página reabre el aviso para poder cambiar de opinión.
+1. Copia el proyecto al servidor (por ejemplo `/var/www/html/mass-la-joya`).
+2. Asegura que `storage/` tenga permiso de escritura para el usuario de Apache:
+   ```bash
+   chown -R www-data:www-data storage
+   chmod -R 775 storage
+   ```
+3. Confirma que `DirectoryIndex` incluye `index.php` (en la mayoría de
+   instalaciones ya es así). Si no, `index.html` redirige a `index.php`.
+4. Opcional: define la URL pública en `.env`:
+   ```dotenv
+   APP_ENV=production
+   APP_DEBUG=false
+   APP_URL=https://tu-dominio.com/mass-la-joya
+   META_PIXEL_ID=tu_id
+   ```
 
-### Eventos enviados
+No se publica ninguna carpeta `dist/`: el sitio se sirve directamente desde la
+raíz del proyecto. **GitHub Pages ya no es compatible** porque no ejecuta PHP;
+el workflow antiguo se sustituyó por uno de integración continua
+(`.github/workflows/php.yml`).
 
-| Evento | Cuándo se dispara |
+### Si ves un listado de archivos
+
+El servidor no está usando `index.php` como índice. Abre
+`https://tu-dominio/mass-la-joya/index.php` o añade `index.php` a
+`DirectoryIndex` en la configuración de Apache (`httpd.conf` o el vhost).
+
+---
+
+## 🔄 Migración desde Astro (mapa rápido)
+
+| Antes (Astro) | Ahora (PHP MVC) |
 | --- | --- |
-| `PageView` | Al cargar la página, si se aceptaron las cookies |
-| `ViewContent` | Al abrir la vista rápida de un producto |
-| `AddToCart` | Al agregar un producto al carrito |
-| `InitiateCheckout` | Al generar el pedido de WhatsApp |
-| `Purchase` | Al enviar el pedido (al abrir WhatsApp) |
+| `src/pages/index.astro` | `app/Views/pages/home.php` + `app/Views/partials/*` |
+| `src/layouts/Layout.astro` | `app/Views/layouts/main.php` |
+| `src/styles/global.css` | `assets/css/global.css` |
+| `public/js/products.js` | `app/Data/products.json` + `App\Models\Product` |
+| `public/js/app.js` | `assets/js/app.js` (datos inyectados por PHP) |
+| `public/assets/*` | `assets/*` |
+| `pnpm build` | No hay build: se sirve PHP directamente |
+| Formularios con `alert()` | Endpoints PHP con validación y persistencia |
+| Carrito solo local | Carrito local + pedido validado en el servidor |
 
-> ⚠️ **Dos advertencias sobre `Purchase`:** el checkout ocurre dentro de WhatsApp, así que este evento se dispara al abrir el chat, no cuando el cliente confirma. Es probable que Meta cuente pedidos que nunca se completen. Para un conteo real de ventas habría que disparar `Purchase` desde un webhook del lado del servidor.
+El historial de Git conserva la versión anterior por si necesitas comparar.
 
-> 🔒 **Privacidad:** nunca se envían al píxel el nombre, teléfono, dirección ni método de pago del cliente. Meta prohíbe recibir datos personales por el Pixel y puede suspender la cuenta publicitaria. El parámetro `order_id` es un código interno generado en el navegador (`MASS-LJ-XXXXXX`), no un dato del cliente.
+---
 
-### Comprobar que funciona
+## 🔒 Notas de seguridad
 
-1. Abre el sitio en una ventana de incógnito.
-2. Acepta las cookies.
-3. En la consola del navegador deberías ver `fbq` definido: `typeof fbq === 'function'`.
-4. En **Meta Events Manager** confirma que los eventos llegan.
+- Todas las salidas de datos dinámicos usan `e()` (`htmlspecialchars`).
+- Los formularios incluyen token CSRF de sesión; los endpoints lo validan con
+  `hash_equals()`.
+- `storage/` y `app/` incluyen `.htaccess` de denegación; además los datos
+  generados están protegidos con una guarda PHP.
+- Los precios y totales **nunca** se aceptan desde el cliente.
+- En producción mantén `APP_DEBUG=false` y `APP_ENV=production`.
 
-Para verificar que el píxel **no** se carga sin consentimiento, revisa la pestaña *Network* antes de aceptar: no debe haber ninguna petición a `connect.facebook.net`.
-
-## 📁 Estructura del Proyecto
-
-```text
-tiendamass/
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro        # <head> y estructura base del sitio
-│   ├── pages/
-│   │   └── index.astro         # Página principal (Body completo)
-│   └── styles/
-│       └── global.css          # Paleta --mass-*, componentes y modo oscuro (CSS propio)
-├── public/
-│   ├── assets/                 # Imágenes, banners y folletos
-│   └── js/
-│       ├── products.js         # Catálogo de productos, zonas y categorías
-│       └── app.js              # Carrito, filtros, checkout, mapa y encarte
-├── astro.config.mjs            # Plugin tailwindcss() de @tailwindcss/vite (ver "Arquitectura CSS")
-└── package.json
-```
-
-## 🧱 Arquitectura CSS
-
-El diseño visual **no usa Tailwind**, aunque el paquete esté instalado. Conviene saber por qué, para no buscar clases que no existen.
-
-### Cómo funciona hoy
-
-| Pieza | Origen | Aporta |
-| --- | --- | --- |
-| `src/styles/global.css` | CSS propio, ~2.000 líneas | Paleta `--mass-*`, botones, tarjetas, modales, modo oscuro |
-| Bootstrap 5.3.3 | CDN en el `<head>` | Rejilla, utilidades (`flex`, `gap-2`, `text-secondary`, `rounded-pill`…) y modales |
-| Tailwind v4 | `@tailwindcss/vite` en `astro.config.mjs` | **Nada**: `global.css` nunca lo importa |
-
-`global.css` no contiene ningún `@import`, `@layer`, `@theme`, `@source`, `@tailwind` ni `@apply`. Por eso el plugin de Vite no emite CSS: el bundle compilado es solo el archivo propio minificado, sin variables `--tw-*` ni utilidades de Tailwind. Si añades una clase como `text-2xl` al HTML, **no tendrá estilo** y no fallará con error, que es la parte confusa.
-
-Si en el futuro quieres usar Tailwind de verdad, el punto de partida es añadir `@import 'tailwindcss';` al principio de `global.css` y revisar el orden de la cascada respecto a Bootstrap.
-
-### Por qué está instalado si no se usa
-
-Quedó de la migración inicial. Se puede quitar sin riesgo: en `package.json` están `tailwindcss` y `@tailwindcss/vite`, y en `astro.config.mjs` el `plugins: [tailwindcss()]`. Ninguna otra pieza depende de ellos.
-
-### Detalles de la integración
-
-- **Orden en el `<head>`**: el CSS de Bootstrap se carga antes que el bundle de Astro, así que los overrides de marca van **sin capa al final** de `global.css` para ganar la cascada.
-- **Overrides de Bootstrap**: en `:root` se redefinen `--bs-primary`, `--bs-warning`, `--bs-danger`, `--bs-info`, `--bs-secondary` (y sus `--bs-*-rgb`) hacia la paleta Mass.
-- **Modo oscuro**: se aplica con `data-theme` en `<html>` y bloques `html[data-theme="dark"]` al final de `global.css`, uno por componente.
-- **Scripts clásicos**: `products.js` y `app.js` viven en `public/` y se cargan como scripts normales, para que las funciones globales usadas en `onclick` sigan funcionando.
-- **Rutas relativas**: los assets se referencian sin barra inicial (`assets/img/…`) para que el sitio funcione igual en la raíz de un dominio o dentro de un subdirectorio. Así publica en Apache y en GitHub Pages sin ajustes.
-
-## 🚀 Despliegue en GitHub Pages
-
-Cada `push` a `main` dispara `.github/workflows/deploy.yml`, que compila el sitio y lo publica en:
-
-**<https://jeremy-sarmiento.github.io/mass-la-joya/>**
-
-El flujo pide permiso una sola vez (`Settings → Pages → Source → GitHub Actions`) y a partir de ahí cada push se despliega solo.
-
-El **Meta Pixel** se inyecta en el build mediante el secreto `PUBLIC_META_PIXEL_ID` de GitHub Actions, para que el ID real no quede escrito en el repositorio. Créalo en `Settings → Secrets and variables → Actions`. Si añades variables nuevas, decláralas también como secretos en el workflow.
-
-### La variable `SITE_BASE`
-
-El sitio se publica en un subdirectorio, así que Astro necesita saber cuál es. Se define con la variable `SITE_BASE`:
-
-| Destino | Comando |
-| --- | --- |
-| GitHub Pages | `SITE_BASE=/mass-la-joya/ pnpm build` |
-| Apache en `/tiendamass/dist/` | `SITE_BASE=/tiendamass/dist/ pnpm build` |
-| Desarrollo local | *(sin definir)* — el dev server sirve en la raíz |
-
-El workflow ya la define sola. Si publicas en otro servidor, ajústala antes de compilar: sin ella, el CSS y los assets generados por Astro apuntan a la raíz del dominio y dan error 404.
-
-Los assets de `public/` (imágenes, scripts, catálogo) se referencian con rutas relativas y funcionan en cualquier subdirectorio sin configurar nada.
+---
 
 ## 💡 Notas
 
-- Respaldos del sitio vanilla disponibles en `/tmp/opencode/tiendamass-backup`.
+- Datos institucionales (dirección, teléfono, horarios, redes) en
+  `app/Data/store.php`.
+- Categorías y productos en `app/Data/`.
+- Si cambias los assets, usa rutas relativas (`assets/...`) para que el sitio
+  siga funcionando en la raíz o en un subdirectorio.

@@ -1,0 +1,17 @@
+[
+  {
+    "code": "MASSJOYERO",
+    "percent": 10,
+    "description": "Cupón de bienvenida para vecinos de La Joya"
+  },
+  {
+    "code": "LAJOYA10",
+    "percent": 10,
+    "description": "10% de descuento en tu compra"
+  },
+  {
+    "code": "MASS20",
+    "percent": 20,
+    "description": "20% de descuento en compras seleccionadas"
+  }
+]

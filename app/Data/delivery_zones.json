@@ -1,0 +1,32 @@
+[
+  {
+    "id": "recojo",
+    "name": "🏢 Recojo en Tienda Mass La Joya (Av. Paz Soldán, La Joya)",
+    "cost": 0,
+    "time": "15-30 min"
+  },
+  {
+    "id": "centro",
+    "name": "📍 La Joya Centro y alrededores",
+    "cost": 3,
+    "time": "30-45 min"
+  },
+  {
+    "id": "triunfo",
+    "name": "📍 El Triunfo (La Joya)",
+    "cost": 4,
+    "time": "35-50 min"
+  },
+  {
+    "id": "sancamilo",
+    "name": "📍 San Camilo / Asoc. San Isidro",
+    "cost": 5,
+    "time": "40-60 min"
+  },
+  {
+    "id": "sanjose",
+    "name": "📍 San José / Cruce Panamericana",
+    "cost": 5,
+    "time": "40-60 min"
+  }
+]

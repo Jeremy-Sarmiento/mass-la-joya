@@ -1,4 +1,10 @@
 {
-  "recommendations": ["astro-build.astro-vscode"],
-  "unwantedRecommendations": []
+  "recommendations": [
+    "bmewburn.vscode-intelephense-client",
+    "xdebug.php-debug",
+    "editorconfig.editorconfig"
+  ],
+  "unwantedRecommendations": [
+    "astro-build.astro-vscode"
+  ]
 }
