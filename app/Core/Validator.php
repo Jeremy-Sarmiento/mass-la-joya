@@ -173,6 +173,9 @@ final class Validator
             'pay_method' => 'método de pago',
             'position' => 'puesto de interés',
             'coupon' => 'cupón',
+            'password' => 'contraseña',
+            'password_confirmation' => 'confirmación de contraseña',
+            'terms' => 'aceptación de la política de privacidad',
         ];
 
         return $labels[$field] ?? str_replace('_', ' ', $field);

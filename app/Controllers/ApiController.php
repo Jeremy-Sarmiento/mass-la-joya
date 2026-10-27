@@ -12,6 +12,7 @@ use App\Models\JobApplication;
 use App\Models\LocalOffer;
 use App\Models\Order;
 use App\Models\Product;
+use App\Services\Auth;
 
 /**
  * Endpoints JSON consumidos por assets/js/app.js.
@@ -25,8 +26,12 @@ final class ApiController extends Controller
         $this->requirePost();
         $this->requireCsrf();
 
+        $data = $request->all();
+        // El navegador nunca decide a qué cuenta pertenece el pedido.
+        $data['user_id'] = Auth::id();
+
         try {
-            $order = Order::place($request->all());
+            $order = Order::place($data);
         } catch (ValidationException $exception) {
             $this->failWith($exception, (string) $request->input('_anchor', ''));
         }

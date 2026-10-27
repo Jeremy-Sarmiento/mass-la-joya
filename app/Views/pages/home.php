@@ -7,7 +7,7 @@ if (!defined('MASS_APP')) {
     exit;
 }
 ?>
-<?php partial('partials/header', ['store' => $store, 'filters' => $filters]); ?>
+<?php partial('partials/header', ['store' => $store, 'filters' => $filters, 'user' => $user]); ?>
 
 <?php partial('partials/hero'); ?>
 
@@ -49,6 +49,13 @@ if (!defined('MASS_APP')) {
 <?php partial('partials/encarte-modal'); ?>
 
 <?php partial('partials/order-modal'); ?>
+
+<?php partial('partials/account-modal', [
+    'user' => $user,
+    'userOrders' => $userOrders,
+    'csrfToken' => $csrfToken,
+    'whatsapp' => $whatsapp,
+]); ?>
 
 <?php partial('partials/policies-modal'); ?>
 

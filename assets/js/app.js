@@ -13,6 +13,7 @@ const COUPONS = MASS_DATA.coupons || [];
 const MASS_API = MASS_DATA.api || {};
 const MASS_CSRF = MASS_DATA.csrf || '';
 const INITIAL_STATE = MASS_DATA.initialState || {};
+let currentUser = MASS_DATA.user || null;
 
 // Carrito guardado en localStorage (el servidor valida precios al crear el pedido)
 function readStoredCart() {
@@ -83,6 +84,10 @@ function initApp() {
   initEventListeners();
   initTestimonials();
   initApiForms();
+  initAuthForms();
+  initAccountTabs();
+  initPasswordToggles();
+  prefillCheckoutFromUser(currentUser);
 }
 
 /* ================= RENDER CATEGORIES ================= */
@@ -689,14 +694,14 @@ function showOrderTicket(data) {
         <div class="text-muted small">Av. Paz Soldán, La Joya, Arequipa</div>
         <div class="text-muted small">RUC: 20608280333</div>
         <div class="my-2 border-top border-bottom border-dark py-1 fw-bold">
-          COMPROBANTE DE PEDIDO: ${data.orderId}
+          COMPROBANTE DE PEDIDO: ${escapeHtml(data.orderId)}
         </div>
         <div class="text-start small mb-2">
-          <div><strong>Fecha:</strong> ${data.now}</div>
-          <div><strong>Cliente:</strong> ${data.name}</div>
-          <div><strong>Zona:</strong> ${data.zone}</div>
-          <div><strong>Dirección:</strong> ${data.address || 'Recojo en tienda'}</div>
-          <div><strong>Pago:</strong> ${data.payMethod}</div>
+          <div><strong>Fecha:</strong> ${escapeHtml(data.now)}</div>
+          <div><strong>Cliente:</strong> ${escapeHtml(data.name)}</div>
+          <div><strong>Zona:</strong> ${escapeHtml(data.zone)}</div>
+          <div><strong>Dirección:</strong> ${escapeHtml(data.address || 'Recojo en tienda')}</div>
+          <div><strong>Pago:</strong> ${escapeHtml(data.payMethod)}</div>
         </div>
         
         <table class="table table-sm text-start small mb-2">
@@ -710,8 +715,8 @@ function showOrderTicket(data) {
           <tbody>
             ${data.items.map(it => `
               <tr>
-                <td>${it.quantity}</td>
-                <td>${it.name}</td>
+                <td>${Number(it.quantity)}</td>
+                <td>${escapeHtml(it.name)}</td>
                 <td class="text-end">S/ ${(it.quantity * it.price).toFixed(2)}</td>
               </tr>
             `).join('')}
@@ -914,9 +919,40 @@ function persistOrder(payload) {
   })
     .then(response => response.json().catch(() => ({})))
     .then(data => {
-      if (!data.ok) console.warn('[Mass] El pedido no se pudo registrar en el servidor:', data.message);
+      if (!data.ok) {
+        console.warn('[Mass] El pedido no se pudo registrar en el servidor:', data.message);
+        return;
+      }
+
+      // El historial de "Mi cuenta" cambia con cada pedido.
+      if (currentUser) refreshAccountPanel();
     })
     .catch(error => console.warn('[Mass] Error al registrar el pedido:', error));
+}
+
+async function refreshAccountPanel() {
+  if (!MASS_API.account) return;
+
+  try {
+    const response = await fetch(MASS_API.account, {
+      credentials: 'same-origin',
+      headers: {
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.ok) return;
+
+    currentUser = data.user || currentUser;
+    updateAccountHeader(currentUser);
+    if (typeof data.panel === 'string' && data.panel !== '') {
+      updateAccountPanel(data.panel);
+    }
+  } catch (error) {
+    // Sin conexión: el panel se actualizará al recargar la página.
+  }
 }
 
 /* ================= FORMULARIOS CONECTADOS A LA API ================= */
@@ -976,6 +1012,274 @@ function initApiForms() {
   });
 }
 
+/* ================= CUENTA DE CLIENTE ================= */
+function initAuthForms() {
+  // Delegación: el panel se reemplaza tras iniciar sesión y los formularios
+  // nuevos deben seguir funcionando sin volver a enlazar listeners.
+  document.addEventListener('submit', (event) => {
+    const form = event.target.closest('form[data-auth-form]');
+    if (!form) return;
+
+    event.preventDefault();
+    submitAuthForm(form);
+  });
+
+  // Limpia los errores de un campo en cuanto el visitante lo corrige.
+  document.addEventListener('input', (event) => {
+    const field = event.target.closest('#accountModal [name]');
+    if (!field || !field.form || !field.form.matches('form[data-auth-form]')) return;
+
+    field.classList.remove('is-invalid');
+    const error = field.form.querySelector(`[data-field-error="${field.name}"]`);
+    if (error) {
+      error.textContent = '';
+      error.classList.remove('is-visible');
+    }
+  });
+}
+
+async function submitAuthForm(form) {
+  clearAuthErrors(form);
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const button = form.querySelector('[type="submit"]');
+  const originalHtml = button ? button.innerHTML : '';
+
+  if (button) {
+    button.disabled = true;
+    button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
+  }
+
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-Token': MASS_CSRF
+      },
+      body: new FormData(form)
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok || !data.ok) {
+      applyAuthErrors(form, data.errors || {});
+      throw new Error(data.message || 'No pudimos completar la operación. Inténtalo de nuevo.');
+    }
+
+    form.reset();
+    currentUser = data.user || null;
+
+    if (typeof data.panel === 'string' && data.panel !== '') {
+      updateAccountPanel(data.panel);
+    }
+
+    updateAccountHeader(currentUser);
+    prefillCheckoutFromUser(currentUser);
+    showToast(data.message || 'Listo. Tu cuenta está actualizada.');
+
+    if (currentUser) {
+      const panel = document.getElementById('account-panel');
+      if (panel) panel.focus({ preventScroll: true });
+    } else {
+      openAccountTab('login');
+      const firstInput = document.querySelector('#account-pane-login input');
+      if (firstInput) firstInput.focus({ preventScroll: true });
+    }
+  } catch (error) {
+    showAuthAlert(form, error.message || 'No pudimos completar la operación.');
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.innerHTML = originalHtml;
+    }
+  }
+}
+
+function updateAccountPanel(html) {
+  const panel = document.getElementById('account-panel');
+  if (!panel) return;
+
+  panel.innerHTML = html;
+
+  const body = panel.closest('.modal-body');
+  if (body) body.scrollTop = 0;
+}
+
+function updateAccountHeader(user) {
+  const slot = document.getElementById('account-header-slot');
+  if (!slot) return;
+
+  if (user) {
+    slot.innerHTML = `
+      <button type="button" class="btn-mass-pill btn-mass-blue account-btn" onclick="openAccountModal()" aria-label="Mi cuenta: ${escapeHtml(user.name || '')}">
+        <span class="account-avatar" aria-hidden="true">${escapeHtml(user.initial || 'M')}</span>
+        <span class="d-none d-lg-inline account-btn-label">${escapeHtml(user.first_name || 'Mi cuenta')}</span>
+      </button>
+    `;
+    return;
+  }
+
+  slot.innerHTML = `
+    <button type="button" class="btn-mass-pill btn-mass-blue account-btn" onclick="openAccountModal('login')" aria-label="Iniciar sesión">
+      <i class="fa-regular fa-user" aria-hidden="true"></i>
+      <span class="d-none d-lg-inline account-btn-label">Ingresar</span>
+    </button>
+  `;
+}
+
+function prefillCheckoutFromUser(user) {
+  if (!user) return;
+
+  const name = document.getElementById('checkout-name');
+  const phone = document.getElementById('checkout-phone');
+
+  if (name && !name.value.trim()) name.value = user.name || '';
+  if (phone && !phone.value.trim()) phone.value = user.phone || '';
+}
+
+function initAccountTabs() {
+  document.addEventListener('click', (event) => {
+    const tab = event.target.closest('[data-account-tab]');
+    if (!tab) return;
+
+    event.preventDefault();
+    openAccountTab(tab.getAttribute('data-account-tab'));
+  });
+}
+
+function openAccountTab(name) {
+  document.querySelectorAll('[data-account-tab]').forEach((tab) => {
+    const active = tab.getAttribute('data-account-tab') === name;
+    tab.classList.toggle('is-active', active);
+    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+
+  document.querySelectorAll('[data-account-pane]').forEach((pane) => {
+    const active = pane.getAttribute('data-account-pane') === name;
+    pane.classList.toggle('is-active', active);
+    pane.hidden = !active;
+  });
+}
+
+function openAccountModal(tab) {
+  const modalEl = document.getElementById('accountModal');
+  if (!modalEl || !window.bootstrap) return;
+
+  if (tab) openAccountTab(tab);
+
+  const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+  modal.show();
+}
+
+function closeAccountAndGoCatalog() {
+  const modalEl = document.getElementById('accountModal');
+  const modal = modalEl && window.bootstrap ? bootstrap.Modal.getInstance(modalEl) : null;
+  if (modal) modal.hide();
+
+  window.setTimeout(() => {
+    const catalog = document.getElementById('seccion-catalogo');
+    if (catalog) catalog.scrollIntoView({ behavior: 'smooth' });
+  }, 260);
+}
+
+function openPrivacyFromAccount() {
+  const accountModal = document.getElementById('accountModal');
+  if (!accountModal || !window.bootstrap) {
+    openModal('myModalPrivacidad');
+    return;
+  }
+
+  const instance = bootstrap.Modal.getInstance(accountModal);
+  if (!instance) {
+    openModal('myModalPrivacidad');
+    return;
+  }
+
+  const onHidden = () => {
+    accountModal.removeEventListener('hidden.bs.modal', onHidden);
+    openModal('myModalPrivacidad');
+  };
+
+  accountModal.addEventListener('hidden.bs.modal', onHidden);
+  instance.hide();
+}
+
+function initPasswordToggles() {
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-password-toggle]');
+    if (!button) return;
+
+    const input = document.getElementById(button.getAttribute('data-password-toggle'));
+    if (!input) return;
+
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    button.setAttribute('aria-pressed', show ? 'true' : 'false');
+    button.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
+
+    const icon = button.querySelector('i');
+    if (icon) icon.className = show ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
+
+    input.focus({ preventScroll: true });
+  });
+}
+
+function clearAuthErrors(form) {
+  form.querySelectorAll('.is-invalid').forEach((field) => field.classList.remove('is-invalid'));
+  form.querySelectorAll('[data-field-error]').forEach((error) => {
+    error.textContent = '';
+    error.classList.remove('is-visible');
+  });
+
+  const alert = form.querySelector('[data-auth-alert]');
+  if (alert) {
+    alert.hidden = true;
+    alert.textContent = '';
+  }
+}
+
+function applyAuthErrors(form, errors) {
+  Object.entries(errors || {}).forEach(([field, message]) => {
+    const input = form.querySelector(`[name="${field}"]`);
+    if (input) input.classList.add('is-invalid');
+
+    const error = form.querySelector(`[data-field-error="${field}"]`);
+    if (error) {
+      error.textContent = message;
+      error.classList.add('is-visible');
+    }
+  });
+}
+
+function showAuthAlert(form, message) {
+  const alert = form.querySelector('[data-auth-alert]');
+  if (!alert) {
+    showToast(message, 'error');
+    return;
+  }
+
+  alert.textContent = message;
+  alert.hidden = false;
+  alert.scrollIntoView({ block: 'nearest' });
+}
+
+function escapeHtml(value) {
+  return String(value == null ? '' : value).replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  }[character]));
+}
+
 /* ================= TESTIMONIALS ================= */
 function initTestimonials() {
   const container = document.getElementById('testimonials-container');
@@ -1014,11 +1318,14 @@ function showToast(message, type = 'success') {
 
   const toast = document.createElement('div');
   toast.className = 'mass-toast';
-  toast.innerHTML = `
-    <i class="fa-solid ${icon}"></i>
-    <span>${message}</span>
-  `;
 
+  const iconEl = document.createElement('i');
+  iconEl.className = 'fa-solid ' + icon;
+
+  const textEl = document.createElement('span');
+  textEl.textContent = message;
+
+  toast.append(iconEl, textEl);
   container.appendChild(toast);
 
   setTimeout(() => {

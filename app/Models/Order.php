@@ -69,11 +69,14 @@ final class Order extends JsonRecord
             ? $requestedId
             : self::generateId();
 
+        $userId = trim((string) ($input['user_id'] ?? ''));
+
         $record = [
             'id' => $orderId,
             'created_at' => date('c'),
             'created_at_local' => self::now(),
             'status' => 'pendiente',
+            'user_id' => $userId !== '' ? $userId : null,
             'customer' => [
                 'name' => trim((string) $input['name']),
                 'phone' => trim((string) ($input['phone'] ?? '')),
@@ -99,6 +102,33 @@ final class Order extends JsonRecord
         ];
 
         return self::persist($record);
+    }
+
+    /**
+     * Pedidos recientes de una cuenta, del más nuevo al más antiguo.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function forUser(string $userId, int $limit = 8): array
+    {
+        if ($userId === '') {
+            return [];
+        }
+
+        $orders = array_values(array_filter(
+            self::all(),
+            static fn (mixed $order): bool => is_array($order) && ($order['user_id'] ?? null) === $userId
+        ));
+
+        usort(
+            $orders,
+            static fn (array $a, array $b): int => strcmp(
+                (string) ($b['created_at'] ?? ''),
+                (string) ($a['created_at'] ?? '')
+            )
+        );
+
+        return array_slice($orders, 0, max(1, $limit));
     }
 
     /**

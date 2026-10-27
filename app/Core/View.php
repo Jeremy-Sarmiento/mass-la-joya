@@ -34,6 +34,12 @@ final class View
         echo self::capture($view, $data);
     }
 
+    /** Devuelve el HTML de una vista o partial sin imprimirlo. */
+    public static function renderToString(string $view, array $data = []): string
+    {
+        return self::capture($view, $data);
+    }
+
     private static function capture(string $view, array $data): string
     {
         $file = BASE_PATH . '/app/Views/' . $view . '.php';

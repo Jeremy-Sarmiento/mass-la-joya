@@ -31,6 +31,7 @@
 	          <h5 class="footer-heading">ENLACES RÁPIDOS</h5>
 	          <ul class="footer-links">
 	            <li><a href="#inicio">Inicio</a></li>
+	            <li><a href="javascript:void(0)" onclick="openAccountModal()">Mi cuenta</a></li>
 	            <li><a href="#seccion-catalogo">Precios Mass Catálogo</a></li>
 	            <li><a href="javascript:void(0)" onclick="openEncarteModal(1)">Encarte Quincenal</a></li>
 	            <li><a href="#seccion-ubicame">Ubícanos en La Joya</a></li>

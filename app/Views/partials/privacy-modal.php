@@ -16,12 +16,18 @@
 
 	          <h6 class="fw-bold text-dark mt-3 mb-2">Datos que recopilamos</h6>
 	          <ul class="text-secondary small mb-0">
-	            <li><strong>Datos del pedido:</strong> nombre, teléfono, dirección de entrega y zona, cuando realizas un pedido por WhatsApp.</li>
+	            <li><strong>Datos de la cuenta:</strong> nombre, correo electrónico y teléfono cuando creas una cuenta. La contraseña nunca se guarda en texto plano: se almacena como un hash seguro.</li>
+	            <li><strong>Datos del pedido:</strong> nombre, teléfono, dirección de entrega y zona, cuando realizas un pedido por WhatsApp o desde la tienda.</li>
+	            <li><strong>Historial de pedidos:</strong> los pedidos realizados con la sesión iniciada se asocian a tu cuenta para que puedas consultarlos.</li>
 	            <li><strong>Carrito de compras:</strong> los productos que agregas se guardan en el almacenamiento local de tu navegador, no en nuestros servidores.</li>
 	            <li><strong>Preferencias:</strong> tema claro/oscuro y tu elección sobre cookies.</li>
 	          </ul>
 
 	          <h6 class="fw-bold text-dark mt-3 mb-2">Cookies y tecnologías de medición</h6>
+	          <p class="text-secondary small">
+	            Usamos una <strong>cookie técnica de sesión</strong> para mantener tu cuenta iniciada mientras navegas. Esta cookie
+	            es necesaria para el funcionamiento del inicio de sesión y no se utiliza con fines publicitarios.
+	          </p>
 	          <p class="text-secondary small">
 	            Utilizamos el <strong>Meta Pixel (Facebook)</strong> para medir las visitas y el uso de la tienda, con el fin
 	            de mejorar nuestros productos y nuestras campañas publicitarias. Este recurso instala cookies y envía

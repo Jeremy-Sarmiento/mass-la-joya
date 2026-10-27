@@ -14,6 +14,7 @@ define('MASS_APP', true);
 require __DIR__ . '/app/bootstrap.php';
 
 use App\Controllers\ApiController;
+use App\Controllers\AuthController;
 use App\Controllers\HomeController;
 use App\Core\Router;
 
@@ -29,6 +30,12 @@ $router->post('/api/orders', [ApiController::class, 'order']);
 $router->post('/api/claims', [ApiController::class, 'claim']);
 $router->post('/api/job-applications', [ApiController::class, 'jobApplication']);
 $router->post('/api/local-offers', [ApiController::class, 'localOffer']);
+
+// Cuenta de cliente
+$router->post('/api/auth/login', [AuthController::class, 'login']);
+$router->post('/api/auth/register', [AuthController::class, 'register']);
+$router->post('/api/auth/logout', [AuthController::class, 'logout']);
+$router->get('/api/auth/account', [AuthController::class, 'account']);
 
 try {
     $router->dispatch();

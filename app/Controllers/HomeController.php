@@ -10,8 +10,10 @@ use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\DeliveryZone;
 use App\Models\JobApplication;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Testimonial;
+use App\Services\Auth;
 
 /**
  * Página principal de la tienda.
@@ -43,6 +45,8 @@ final class HomeController extends Controller
         $featured = Product::featured(8);
         $deliveryZones = DeliveryZone::all();
         $testimonials = Testimonial::all();
+        $user = Auth::user();
+        $userOrders = $user !== null ? Order::forUser((string) $user['id']) : [];
 
         $this->view('pages/home', [
             'title' => 'Mass de La Joya | ¡Lleva Mass pagando Menos! - Arequipa',
@@ -58,6 +62,8 @@ final class HomeController extends Controller
             'testimonials' => $testimonials,
             'deliveryZones' => $deliveryZones,
             'positions' => JobApplication::POSITIONS,
+            'user' => $user,
+            'userOrders' => $userOrders,
             'filters' => [
                 'category' => $category,
                 'search' => $search,
@@ -78,8 +84,13 @@ final class HomeController extends Controller
                     'claims' => url('api/claims'),
                     'jobs' => url('api/job-applications'),
                     'localOffers' => url('api/local-offers'),
+                    'login' => url('api/auth/login'),
+                    'register' => url('api/auth/register'),
+                    'logout' => url('api/auth/logout'),
+                    'account' => url('api/auth/account'),
                 ],
                 'csrf' => csrf_token(),
+                'user' => $user,
                 'store' => [
                     'whatsapp' => (string) config('whatsapp'),
                     'currency' => 'PEN',

@@ -25,6 +25,7 @@ use App\Models\LocalOffer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Testimonial;
+use App\Models\User;
 
 $failures = [];
 
@@ -60,6 +61,50 @@ check('5 zonas de entrega', count(DeliveryZone::all()) === 5);
 check('3 cupones', count(Coupon::all()) === 3);
 check('3 testimonios', count(Testimonial::all()) === 3);
 
+echo "Cuentas\n";
+$customer = User::register([
+    'name' => 'Carmen Rojas',
+    'email' => 'Carmen.Rojas@Example.com',
+    'phone' => '987654321',
+    'password' => 'Mass2026segura',
+    'password_confirmation' => 'Mass2026segura',
+    'terms' => '1',
+]);
+check('cuenta de cliente creada', ($customer['email'] ?? '') === 'carmen.rojas@example.com');
+check('el hash de la contraseña no se expone', !isset($customer['password_hash']));
+$storedUser = User::findByEmail('carmen.rojas@example.com');
+check('contraseña guardada con hash', isset($storedUser['password_hash']) && password_verify('Mass2026segura', (string) $storedUser['password_hash']));
+check('inicio de sesión con contraseña correcta', User::attempt('CARMEN.ROJAS@example.com', 'Mass2026segura') !== null);
+check('rechaza contraseña incorrecta', User::attempt('carmen.rojas@example.com', 'incorrecta') === null);
+
+$threw = false;
+try {
+    User::register([
+        'name' => 'Carmen Rojas',
+        'email' => 'carmen.rojas@example.com',
+        'password' => 'OtraClave2026',
+        'password_confirmation' => 'OtraClave2026',
+        'terms' => '1',
+    ]);
+} catch (ValidationException) {
+    $threw = true;
+}
+check('rechaza correos duplicados', $threw);
+
+$threw = false;
+try {
+    User::register([
+        'name' => 'Clave Corta',
+        'email' => 'corta@example.com',
+        'password' => '123',
+        'password_confirmation' => '123',
+        'terms' => '1',
+    ]);
+} catch (ValidationException) {
+    $threw = true;
+}
+check('rechaza contraseñas débiles', $threw);
+
 echo "Pedidos\n";
 $order = Order::place([
     'order_id' => 'MASS-LJ-123456',
@@ -70,6 +115,7 @@ $order = Order::place([
     'zone' => 'centro',
     'pay_method' => 'Yape / Plin',
     'coupon' => 'MASSJOYERO',
+    'user_id' => $customer['id'],
     'items' => [
         ['id' => 'prod-001', 'quantity' => 2],
         ['id' => 'prod-019', 'quantity' => 1],
@@ -82,6 +128,9 @@ check('delivery de La Joya Centro', $order['delivery'] === 3.0);
 check('descuento del 10%', $order['discount'] === 1.81);
 check('total final', $order['total'] === 19.29);
 check('pedido persistido', count(Order::all()) === 1);
+check('pedido asociado a la cuenta', ($order['user_id'] ?? null) === $customer['id']);
+check('pedidos de la cuenta recuperados', count(Order::forUser($customer['id'])) === 1);
+check('otra cuenta no ve esos pedidos', Order::forUser('USR-OTRA0000') === []);
 
 $threw = false;
 try {

@@ -26,15 +26,40 @@ $flashes = $flashes ?? [];
     <!-- Canonical: evita contenido duplicado (p. ej. /index.php vs /) -->
     <link rel="canonical" href="<?= e($pageCanonical) ?>">
 
+    <!-- Color de la interfaz del navegador (barra móvil) y esquema nativo -->
+    <meta name="theme-color" content="#FFD100" id="mass-theme-color">
+    <meta name="color-scheme" content="light dark">
+
     <!-- Tema (claro/oscuro) antes de pintar -->
     <script>
         (function () {
+            function applyTheme(theme, persist) {
+                var dark = theme === 'dark';
+                document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+                document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+
+                var meta = document.getElementById('mass-theme-color');
+                if (meta) meta.setAttribute('content', dark ? '#0B1322' : '#FFD100');
+
+                if (persist) {
+                    try {
+                        localStorage.setItem('mass-theme', dark ? 'dark' : 'light');
+                    } catch (e) {}
+                }
+
+                if (typeof window.massSyncThemeUI === 'function') {
+                    window.massSyncThemeUI(dark);
+                }
+            }
+
+            window.massApplyTheme = applyTheme;
+
             try {
                 var stored = localStorage.getItem('mass-theme');
-                var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                applyTheme(stored || (prefersDark ? 'dark' : 'light'), false);
             } catch (e) {
-                document.documentElement.setAttribute('data-theme', 'light');
+                applyTheme('light', false);
             }
         })();
     </script>
@@ -188,22 +213,57 @@ $flashes = $flashes ?? [];
             const btn = document.getElementById('themeToggleBtn');
             if (!btn) return;
             const icon = btn.querySelector('i');
-            icon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            if (icon) icon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
             btn.setAttribute('aria-label', dark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
             btn.title = dark ? 'Modo claro' : 'Modo oscuro';
         }
 
+        window.massSyncThemeUI = setThemeIcon;
+
         function toggleTheme() {
             const root = document.documentElement;
             const dark = root.getAttribute('data-theme') !== 'dark';
-            root.setAttribute('data-theme', dark ? 'dark' : 'light');
-            try {
-                localStorage.setItem('mass-theme', dark ? 'dark' : 'light');
-            } catch (e) {}
+
+            root.classList.add('theme-transition');
+            if (typeof window.massApplyTheme === 'function') {
+                window.massApplyTheme(dark ? 'dark' : 'light', true);
+            } else {
+                root.setAttribute('data-theme', dark ? 'dark' : 'light');
+            }
             setThemeIcon(dark);
+
+            window.setTimeout(() => root.classList.remove('theme-transition'), 380);
         }
 
         setThemeIcon(document.documentElement.getAttribute('data-theme') === 'dark');
+
+        // Si el visitante no eligió un tema, sigue los cambios del sistema.
+        (function () {
+            if (!window.matchMedia) return;
+            const query = window.matchMedia('(prefers-color-scheme: dark)');
+            const onChange = (event) => {
+                let stored = null;
+                try {
+                    stored = localStorage.getItem('mass-theme');
+                } catch (e) {}
+                if (stored) return;
+
+                const root = document.documentElement;
+                root.classList.add('theme-transition');
+                if (typeof window.massApplyTheme === 'function') {
+                    window.massApplyTheme(event.matches ? 'dark' : 'light', false);
+                }
+                setThemeIcon(event.matches);
+                window.setTimeout(() => root.classList.remove('theme-transition'), 380);
+            };
+
+            if (typeof query.addEventListener === 'function') {
+                query.addEventListener('change', onChange);
+            } else if (typeof query.addListener === 'function') {
+                query.addListener(onChange);
+            }
+        })();
     </script>
 
     <!-- Bootstrap 5.3 JS Bundle -->

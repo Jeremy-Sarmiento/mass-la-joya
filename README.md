@@ -11,13 +11,14 @@ Tienda web interactiva de **Mass de La Joya** (Arequipa, Perú), migrada de Astr
 - 🥫 Catálogo de **58 productos** servido desde PHP, con filtros y ordenamiento.
 - 🛒 Carrito interactivo con `localStorage`, cupones y **pedido por WhatsApp**.
 - 💾 **Pedidos, reclamos, postulaciones y ofertas de local guardados en el servidor** (no solo un `alert`).
+- 👤 **Cuentas de cliente**: registro, inicio de sesión con contraseña cifrada, sesión persistente e historial de pedidos.
 - ✅ Validación de datos en el servidor, CSRF, escapado de HTML y recálculo de precios/totales.
 - 📖 Encarte Digital Quincenal interactivo (3 páginas).
 - 📍 Ubícanos en La Joya con mapa OpenStreetMap.
 - 👥 Fuerza Amarilla, Ofrece tu Local y Libro de Reclamaciones Virtual.
 - 🧭 UX: scroll suave con scrollspy, botón volver-arriba, tira de beneficios, toasts, feedback táctil y *safe areas*.
 - 🎨 Paleta unificada Mass sobre Bootstrap 5.3 + CSS propio.
-- 🌙 Modo oscuro persistente.
+- 🌙 **Modo oscuro mejorado**: persistente, sincronizado con el sistema, transiciones suaves, contraste alto y componentes nativos oscuros.
 
 ---
 
@@ -80,6 +81,10 @@ Petición HTTP
 | `POST` | `?r=api/claims` | Libro de Reclamaciones |
 | `POST` | `?r=api/job-applications` | Fuerza Amarilla |
 | `POST` | `?r=api/local-offers` | Oferta de local |
+| `POST` | `?r=api/auth/login` | Iniciar sesión |
+| `POST` | `?r=api/auth/register` | Crear cuenta de cliente |
+| `POST` | `?r=api/auth/logout` | Cerrar sesión |
+| `GET` | `?r=api/auth/account` | Panel de cuenta actualizado (JSON) |
 
 El router usa `index.php?r=...` para funcionar en cualquier subdirectorio sin
 `mod_rewrite`. También reconoce `PATH_INFO` si tu servidor lo prefiere.
@@ -110,6 +115,7 @@ mass-la-joya/
 │   │   └── ValidationException.php
 │   ├── Controllers/
 │   │   ├── HomeController.php
+│   │   ├── AuthController.php # Login, registro y panel de cliente
 │   │   └── ApiController.php
 │   ├── Models/
 │   │   ├── Product.php        # Catálogo
@@ -117,12 +123,14 @@ mass-la-joya/
 │   │   ├── DeliveryZone.php   # Zonas y costo de delivery
 │   │   ├── Coupon.php         # Cupones
 │   │   ├── Testimonial.php
+│   │   ├── User.php           # Cuentas y hash de contraseñas
 │   │   ├── Order.php          # Pedido + recálculo de totales
 │   │   ├── Claim.php          # Libro de reclamaciones
 │   │   ├── JobApplication.php
 │   │   ├── LocalOffer.php
 │   │   └── JsonRecord.php     # Base de persistencia
 │   ├── Services/
+│   │   ├── Auth.php           # Sesión, intentos y regeneración de ID
 │   │   └── Storage.php        # Archivos JSON con bloqueo y guarda PHP
 │   ├── Data/
 │   │   ├── products.json
@@ -161,6 +169,7 @@ en `storage/`:
 | `storage/claims.php` | Hojas de reclamación |
 | `storage/job_applications.php` | Postulaciones |
 | `storage/local_offers.php` | Ofertas de locales |
+| `storage/users.php` | Cuentas de cliente (contraseñas con `password_hash`) |
 
 Cada archivo empieza con una guarda `<?php http_response_code(403); exit; ?>`,
 así que pedirlo directamente devuelve **403** aunque el servidor no respete
@@ -185,6 +194,19 @@ rechazando:
 
 Después, el navegador abre WhatsApp con el resumen. El pedido queda registrado
 en el servidor con el mismo código mostrado al cliente (`MASS-LJ-XXXXXX`).
+
+### Cuentas de cliente
+
+- El registro pide nombre, correo, teléfono (opcional) y contraseña de al menos
+  8 caracteres.
+- La contraseña se guarda con `password_hash()` y nunca se devuelve a la vista
+  ni a la API.
+- El inicio de sesión usa `password_verify()`, renueva el ID de sesión para
+  evitar *session fixation* y limita a **5 intentos fallidos cada 5 minutos**.
+- Los pedidos realizados con sesión iniciada se guardan con `user_id` y se
+  muestran en **Mi cuenta → Mis pedidos**.
+- Si el cliente no recuerda su contraseña, el panel ofrece contacto por
+  WhatsApp; no hay envío de correos porque el proyecto no usa servicios externos.
 
 ---
 
@@ -283,6 +305,11 @@ El historial de Git conserva la versión anterior por si necesitas comparar.
 - `storage/` y `app/` incluyen `.htaccess` de denegación; además los datos
   generados están protegidos con una guarda PHP.
 - Los precios y totales **nunca** se aceptan desde el cliente.
+- Las contraseñas se guardan con `password_hash()` y se comparan con
+  `password_verify()`; nunca se muestran ni se registran en claro.
+- El ID de sesión se regenera al iniciar y cerrar sesión; los intentos fallidos
+  de acceso están limitados por sesión.
+- `user_id` de un pedido se toma siempre de la sesión, nunca del navegador.
 - En producción mantén `APP_DEBUG=false` y `APP_ENV=production`.
 
 ---

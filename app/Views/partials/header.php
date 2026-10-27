@@ -1,10 +1,11 @@
 <?php if (!defined('MASS_APP')) { http_response_code(404); exit; } ?>
+<?php $user = $user ?? null; ?>
 	  <!-- ================= MAIN HEADER & NAVBAR ================= -->
 	  <header class="navbar-mass">
 	    <div class="container">
 	      <div class="row align-items-center g-2">
 	        <!-- Logo & Brand -->
-	        <div class="col-8 col-md-3">
+	        <div class="col-7 col-md-3">
 	          <a href="#inicio" class="mass-brand-container">
 	            <img src="assets/img/mass_logo.webp" alt="Logo Mass" class="mass-brand-logo">
 	            <div class="mass-brand-text">
@@ -29,12 +30,16 @@
 	        </div>
 
 	        <!-- Actions & Cart Button -->
-	        <div class="col-4 col-md-4 order-2 order-md-3 text-end d-flex align-items-center justify-content-end gap-2">
-	          <button class="btn-mass-pill btn-mass-blue d-none d-lg-inline-flex" onclick="openEncarteModal(1)">
+	        <div class="col-5 col-md-4 order-2 order-md-3 text-end d-flex align-items-center justify-content-end gap-2">
+	          <button class="btn-mass-pill btn-mass-blue d-none d-xxl-inline-flex" onclick="openEncarteModal(1)">
 	            <i class="fa-solid fa-book-open"></i> Encarte Digital
 	          </button>
 
-	          <button type="button" class="btn-mass-pill btn-mass-blue theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Cambiar a modo oscuro">
+	          <div id="account-header-slot" class="account-header-slot">
+	            <?php partial('partials/account-button', ['user' => $user]); ?>
+	          </div>
+
+	          <button type="button" class="btn-mass-pill btn-mass-blue theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Cambiar a modo oscuro" aria-pressed="false">
 	            <i class="fa-solid fa-moon"></i>
 	          </button>
 
