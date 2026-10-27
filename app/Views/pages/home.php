@@ -9,34 +9,36 @@ if (!defined('MASS_APP')) {
 ?>
 <?php partial('partials/header', ['store' => $store, 'filters' => $filters, 'user' => $user]); ?>
 
-<?php partial('partials/hero'); ?>
+<main id="contenido-principal" tabindex="-1">
+    <?php partial('partials/hero'); ?>
 
-<?php partial('partials/benefits'); ?>
+    <?php partial('partials/benefits'); ?>
 
-<?php partial('partials/categories', ['categories' => $categories, 'filters' => $filters]); ?>
+    <?php partial('partials/categories', ['categories' => $categories, 'filters' => $filters]); ?>
 
-<?php partial('partials/featured', ['featured' => $featured]); ?>
+    <?php partial('partials/featured', ['featured' => $featured]); ?>
 
-<?php partial('partials/catalog-banner'); ?>
+    <?php partial('partials/catalog-banner'); ?>
 
-<?php partial('partials/catalog', [
-    'categories' => $categories,
-    'products' => $products,
-    'deliveryZones' => $deliveryZones,
-    'filters' => $filters,
-    'productsCount' => $productsCount,
-    'totalProducts' => $totalProducts,
-]); ?>
+    <?php partial('partials/catalog', [
+        'categories' => $categories,
+        'products' => $products,
+        'deliveryZones' => $deliveryZones,
+        'filters' => $filters,
+        'productsCount' => $productsCount,
+        'totalProducts' => $totalProducts,
+    ]); ?>
 
-<?php partial('partials/encarte-banner'); ?>
+    <?php partial('partials/encarte-banner'); ?>
 
-<?php partial('partials/locator', ['store' => $store]); ?>
+    <?php partial('partials/locator', ['store' => $store]); ?>
 
-<?php partial('partials/jobs'); ?>
+    <?php partial('partials/jobs'); ?>
 
-<?php partial('partials/local-offer'); ?>
+    <?php partial('partials/local-offer'); ?>
 
-<?php partial('partials/testimonials', ['testimonials' => $testimonials]); ?>
+    <?php partial('partials/testimonials', ['testimonials' => $testimonials]); ?>
+</main>
 
 <?php partial('partials/footer', ['store' => $store]); ?>
 

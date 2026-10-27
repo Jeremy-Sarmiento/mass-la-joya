@@ -1,6 +1,6 @@
 <?php if (!defined('MASS_APP')) { http_response_code(404); exit; } ?>
 	  <!-- ================= FEATURED: PRECIOS MÁS MASS ================= -->
-	  <section id="seccion-ofertas" class="py-5 bg-white">
+	  <section id="seccion-ofertas" class="py-5 bg-white" data-reveal>
 	    <div class="container">
 	      <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
 	        <div>

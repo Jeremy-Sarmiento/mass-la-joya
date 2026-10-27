@@ -1,6 +1,6 @@
 <?php if (!defined('MASS_APP')) { http_response_code(404); exit; } ?>
 	  <!-- ================= DIGITAL ENCARTE PROMO BANNER ================= -->
-	  <section class="py-5 bg-primary text-white text-center position-relative overflow-hidden">
+	  <section class="py-5 bg-primary text-white text-center position-relative overflow-hidden" data-reveal>
 	    <div class="container position-relative" style="z-index: 2;">
 	      <span class="badge bg-warning text-primary px-3 py-2 rounded-pill fw-bold mb-2">ENCARTE QUINCENAL</span>
 	      <h2 class="display-6 fw-bold mb-3">¿Prefieres hojear nuestro folleto de ofertas?</h2>

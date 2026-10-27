@@ -1,6 +1,6 @@
 <?php if (!defined('MASS_APP')) { http_response_code(404); exit; } ?>
 	  <!-- ================= STORE LOCATOR: LA JOYA ================= -->
-	  <section id="seccion-ubicame" class="py-5 bg-white">
+	  <section id="seccion-ubicame" class="py-5 bg-white" data-reveal>
 	    <div class="container">
 	      <div class="section-title-wrap">
 	        <span class="section-badge">Visítanos en persona</span>

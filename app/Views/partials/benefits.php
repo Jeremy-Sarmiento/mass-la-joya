@@ -1,6 +1,6 @@
 <?php if (!defined('MASS_APP')) { http_response_code(404); exit; } ?>
 	  <!-- ================= BENEFITS STRIP ================= -->
-	  <section class="py-4" aria-label="Beneficios y servicios de Mass La Joya">
+	  <section class="py-4" aria-label="Beneficios y servicios de Mass La Joya" data-reveal>
 	    <div class="container">
 	      <div class="benefits-strip">
 	        <div class="benefit-item">

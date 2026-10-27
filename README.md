@@ -17,6 +17,8 @@ Tienda web interactiva de **Mass de La Joya** (Arequipa, Perú), migrada de Astr
 - 📍 Ubícanos en La Joya con mapa OpenStreetMap.
 - 👥 Fuerza Amarilla, Ofrece tu Local y Libro de Reclamaciones Virtual.
 - 🧭 UX: scroll suave con scrollspy, botón volver-arriba, tira de beneficios, toasts, feedback táctil y *safe areas*.
+- ♿ Accesibilidad: enlace de *skip*, landmark `<main>`, buscador con ARIA combobox y teclado navegable, carrito con diálogo accesible, foco gestionado, filtros activos con chips, estados vacíos y movimientos reducidos.
+- 📱 UX móvil: barra de resumen de carrito fija en móvil, navegación inferior, bottom sheet, toasts contextuales.
 - 🎨 Paleta unificada Mass sobre Bootstrap 5.3 + CSS propio.
 - 🌙 **Modo oscuro mejorado**: persistente, sincronizado con el sistema, transiciones suaves, contraste alto y componentes nativos oscuros.
 

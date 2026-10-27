@@ -1,6 +1,6 @@
 <?php if (!defined('MASS_APP')) { http_response_code(404); exit; } ?>
 	  <!-- ================= BANNER CATALOGO PROMO ================= -->
-	  <section class="py-5">
+	  <section class="py-5" data-reveal>
 	    <div class="container">
 	      <div class="banner-catalogo-section">
 	        <div class="row align-items-center">

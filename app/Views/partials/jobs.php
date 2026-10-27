@@ -1,6 +1,6 @@
 <?php if (!defined('MASS_APP')) { http_response_code(404); exit; } ?>
 	  <!-- ================= FUERZA AMARILLA (TRABAJA CON NOSOTROS) ================= -->
-	  <section id="seccion-fuerza-amarilla" class="py-5">
+	  <section id="seccion-fuerza-amarilla" class="py-5" data-reveal>
 	    <div class="container">
 	      <div class="fuerza-amarilla-section">
 	        <div class="row align-items-center">

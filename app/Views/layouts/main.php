@@ -161,6 +161,8 @@ $flashes = $flashes ?? [];
     </script>
 </head>
 <body>
+    <a class="skip-link" href="#contenido-principal">Saltar al contenido principal</a>
+
     <?= $content ?>
 
     <!-- Aviso de consentimiento de cookies (Ley N.° 29733) -->

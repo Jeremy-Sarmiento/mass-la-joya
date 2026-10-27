@@ -1,6 +1,6 @@
 <?php if (!defined('MASS_APP')) { http_response_code(404); exit; } ?>
 	  <!-- ================= OFRECE TU LOCAL ================= -->
-	  <section id="seccion-ofrece-local" class="py-5 bg-white">
+	  <section id="seccion-ofrece-local" class="py-5 bg-white" data-reveal>
 	    <div class="container">
 	      <div class="p-4 p-md-5 bg-light rounded-4 border shadow-sm">
 	        <div class="row align-items-center">
